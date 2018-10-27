@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>优品汇|首页</title>
+	<script src="/static/js/jquery.js"></script>
+	<script src="/static/js/jquery.cookie.js"></script>
+	<link rel="stylesheet" type="text/css" href="/static/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/style.1.0.0.css">
+	<script src="/static/js/index01.js"></script>
+	<script src="/static/js/move.js"></script>
+
+</head>
+<body>
+<div class="top">
+	<div class="clearfix">
+
+		<div class="notice_srcoll">
+			<span>公告：</span>
+			<ul>
+				<li><a href="#">[公告]防诈骗提醒</a></li>
+				<li><a href="#">[紧急通知！]关于短信发送异常的公告</a></li>
+				<li><a href="#">APP签到积分规则使用调整</a></li>
+				<li><a href="#">优品惠（优购物）5周年庆，盛大“聚”会</a></li>
+			</ul>
+		</div>
+
+
+		<ul class="top-nav">
+			{% if user %}
+				<li>
+					<span><a href="#">{{ user.phone }}</a></span>|
+
+				</li>
+				<li>
+					<span><a href="{% url 'app:quit' %}">退出</a></span>|
+				</li>
+			{% else %}
+				<li><span><a href="{% url 'app:register' %}">注册</a></span>|</li>
+				<li><span><a href="{% url 'app:login' %}">登录</a></span>|</li>
+			{% endif %}
+			<li><span><a href="#">我的订单</a></span>|</li>
+			<li><span><a href="#">我的关注</a></span>|</li>
+			<li><span><a href="#">资讯</a></span>|</li>
+			<li><span><a href="#">品牌馆</a></span>|</li>
+			<li>&nbsp;&nbsp;&nbsp;&nbsp;<img src="/static/image/phone.png"/>&nbsp;&nbsp;<a href="#">手机优品惠</a></li>
+		</ul>
+
+
+	</div>
+
+</div>
+<div class="header">
+	<div class="header-l">
+		<a href="#" title="全球优品特卖优品惠"><img src="/static/image/logo.png"/></a>
+		<a href="#"><img src="/static/image/logom.jpg"/></a>
+	</div>
+	<div class="header-c">
+		<input type="text" placeholder="&nbsp;&nbsp;&nbsp;&nbsp;请输入商品名称或货号"/>
+		<button>搜索</button>
+	</div>
+	<div class="header-r">
+		<a href="#"><img src="/static/image/gwc.png"/></a>
+		<span><a href="{% url 'app:cart' %}">我的购物车</a></span>
+		<a href="#"><i class="iconfont">&#xe601;</i></a>
+		<p>0</p>
+	</div>
+</div>
+<div class="menu">
+	<div class="menu-c">
+		<ul>
+			<li><a href="{% url 'app:index' %}">首页</a></li>
+			<li><a href="#"><i class="iconfont">&#xe620;</i>视频</a></li>
+			<li><a href="#">食品</a></li>
+			<li><a href="#">家居</a></li>
+			<li><a href="#">美妆</a></li>
+			<li><a href="#">服饰</a></li>
+		</ul>
+		<div class="menu-r">
+			<a href="#"><i class="iconfont">&#xe716;</i></a>
+			<a href="#">在售分类</a>
+			<a href="#"><i class="iconfont">&#xe601;</i></a>
+		</div>
+	</div>
+	<div class="fllist">
+		<div class="fllist-a">
+			<a href="#"><img src="/static/image/newsix_03.png"/><span>品质厨房</span></a>
+			<a href="#"><h2>电视热销</h2></a>
+			<a href="#"><h2>品质厨具</h2></a>
+			<a href="#"><h2>厨房电器</h2></a>
+			<a href="#"><h2>厨房用具</h2></a>
+		</div>
+		<div class="fllist-a">
+			<a href="#"><img src="/static/image/newsix_05.png"/> <span>美食名声</span></a>
+			<a href="#"><h2>电视热销</h2></a>
+			<a href="#"><h2>品质厨具</h2></a>
+			<a href="#"><h2>厨房电器</h2></a>
+			<a href="#"><h2>厨房用具</h2></a>
+		</div>
+		<div class="fllist-a">
+			<a href="#"><img src="/static/image/newsix_07.png"/><span>健康名声</span></a>
+			<a href="#"><h2>电视热销</h2></a>
+			<a href="#"><h2>品质厨具</h2></a>
+			<a href="#"><h2>厨房电器</h2></a>
+			<a href="#"><h2>厨房用具</h2></a>
+		</div>
+		<div class="fllist-a">
+			<a href="#"><img src="/static/image/newsix_09.png"/><span>魅力穿戴</span></a>
+			<a href="#"><h2>电视热销</h2></a>
+			<a href="#"><h2>品质厨具</h2></a>
+			<a href="#"><h2>厨房电器</h2></a>
+			<a href="#"><h2>厨房用具</h2></a>
+		</div>
+		<div class="fllist-a">
+			<a href="#"><img src="/static/image/newsix_11.png"/><span>珠宝收藏</span></a>
+			<a href="#"><h2>电视热销</h2></a>
+			<a href="#"><h2>品质厨具</h2></a>
+			<a href="#"><h2>厨房电器</h2></a>
+			<a href="#"><h2>厨房用具</h2></a>
+		</div>
+		<div class="fllist-a">
+			<a href="#"><img src="/static/image/newsix_13.png"/><span>美服靓装</span></a>
+			<a href="#"><h2>电视热销</h2></a>
+			<a href="#"><h2>品质厨具</h2></a>
+			<a href="#"><h2>厨房电器</h2></a>
+			<a href="#"><h2>厨房用具</h2></a>
+		</div>
+	</div>
+</div>
+<div id="banner">
+	<ul id="list1">
+		<!--<li><a href="#"><img src="/static/image/banner01.jpg"/></a></li>
+        <li><a href="#"><img src="/static/image/banner02.png"/></a></li>-->
+	</ul>
+	<ul id="list2">
+		<li class="active"></li>
+		<li></li>
+	</ul>
+	<div id="pre"><i class="iconfont">&#xe605;</i></div>
+	<div id="next"><i class="iconfont">&#xe606;</i></div>
+</div>
+<div class="nav">
+	<div class="nav-r">
+		<div id="nav-r-t">
+			<ul id="list3">
+				<li>
+					<img src="/static/image/1492716970325418378.jpg"/>
+					<div class="list-l">
+						<h2>御泥坊 玫瑰滋养矿物睡眠面膜</h2>
+						<p>晚上敷面膜就可以直接睡觉了，睡觉的时间在给肌肤注入水分和能量，第二天早上起来...</p>
+						<div class="list-l-b">
+					 				<span class="span-l">
+					 					<i>￥</i>49
+					 				</span>
+							<p class="p-c">直降</p>
+							<span class="span-r">平日价￥79</span>
+						</div>
+					</div>
+				</li>
+				<li>
+					<img src="/static/image/8346_G_1480568686233.jpg"/>
+					<div class="list-l">
+						<h2>胶原蛋白口服液</h2>
+						<p>晚上敷面膜就可以直接睡觉了，睡觉的时间在给肌肤注入水分和能量，第二天早上起来...</p>
+						<div class="list-l-b">
+					 				<span class="span-l">
+					 					<i>￥</i>49
+					 				</span>
+							<p class="p-c">直降</p>
+							<span class="span-r">平日价￥79</span>
+						</div>
+					</div>
+				</li>
+				<li>
+					<img src="/static/image/1503440421733082961.jpg"/>
+					<div class="list-l">
+						<h2>好吃又有味的泡面 好吃到你想不到</h2>
+						<p>晚上敷面膜就可以直接睡觉了，睡觉的时间在给肌肤注入水分和能量，第二天早上起来...</p>
+						<div class="list-l-b">
+					 				<span class="span-l">
+					 					<i>￥</i>49
+					 				</span>
+							<p class="p-c">直降</p>
+							<span class="span-r">平日价￥79</span>
+						</div>
+					</div>
+				</li>
+				<li>
+					<img src="/static/image/1499824832825970598.jpg"/>
+					<div class="list-l">
+						<h2>御泥坊 玫瑰滋养矿物睡眠面膜</h2>
+						<p>晚上敷面膜就可以直接睡觉了，睡觉的时间在给肌肤注入水分和能量，第二天早上起来...</p>
+						<div class="list-l-b">
+					 				<span class="span-l">
+					 					<i>￥</i>49
+					 				</span>
+							<p class="p-c">直降</p>
+							<span class="span-r">平日价￥79</span>
+						</div>
+					</div>
+				</li>
+			</ul>
+
+		</div>
+		<div id="nav-r-b">
+			<ul id="list4">
+				<li><img src="/static/image/1492716970325418378.jpg"/></li>
+				<li><img src="/static/image/8346_G_1480568686233.jpg"/></li>
+				<li><img src="/static/image/1503440421733082961.jpg"/></li>
+				<li><img src="/static/image/1499824832825970598.jpg"/></li>
+			</ul>
+		</div>
+	</div>
+	<div class="nav-l">
+		<h2>&nbsp;&nbsp;&nbsp;&nbsp;<i class="iconfont">&#xe620;</i>优购物</h2>
+		<div class="nav-l-c">
+			<a href=""><img src="/static/image/1492716970325418378.jpg"/></a>
+			<div class="nav-l-c-r">
+				<p>navygare蚕丝裤发热女裤2色2条</p>
+				<i>￥499</i><br/>
+				<span>倒计时00:00:00</span>
+				<h3>立即抢购&raquo;</h3>
+			</div>
+		</div>
+		<div id="box">
+			<ul id="list5">
+				<li><img src="/static/image/1499824832825970598.jpg"/></li>
+				<li><img src="/static/image/1503440421733082961.jpg"/></li>
+				<li><img src="/static/image/8346_G_1480568686233.jpg"/></li>
+			</ul>
+			<div id="pre1"><i class="iconfont">&#xe605;</i></div>
+			<div id="next1"><i class="iconfont">&#xe606;</i></div>
+		</div>
+		<div class="nav-a">
+			<div class="nav-a-a"><i class="iconfont">&#xe609;</i><br/>tv直播表</div>
+			<div class="nav-a-a"><i class="iconfont">&#xe60b;</i><br/>今日推荐</div>
+			<div class="nav-a-a"><i class="iconfont">&#xe61b;</i><br/>热销榜单</div>
+		</div>
+	</div>
+</div>
+<div class="main">
+	<h2><i>品类精选</i>促销</h2>
+	<p>每周一 周三 周五 10:00上新</p>
+	<div class="main-l">
+		<img src="/static/image/1506730936575909945.jpg"/>
+		<img src="/static/image/1506730997151288905.jpg"/>
+		<img src="/static/image/1506731214052610415.jpg"/>
+		<img src="/static/image/1506731270541668725.jpg"/>
+		<img src="/static/image/1506730745751546004.jpg"/>
+		<img src="/static/image/1506730871602002238.jpg"/>
+	</div>
+	<span class="m-left"></span>
+	<span class="m-right"></span>
+</div>
+<div class="figure">
+	<h2><i>全球</i>尖货</h2>
+	<p>每周一 周三 周五 10:00上新</p>
+	<ul class="figure-j">
+
+	</ul>
+
+	<span class="h-left"></span>
+	<span class="h-right"></span>
+</div>
+<div class="footer">
+	<div class="footer-t">
+		<img src="/static/image/footer_ad (1).jpg"/>
+	</div>
+	<div class="footer-c">
+		<div class="f-a">
+			<a href="#"><h3>新手上路</h3></a>
+			<a href="#"><h3>新用户注册</h3></a>
+			<a href="#"><h3>忘记密码</h3></a>
+			<a href="#"><h3>购物流程</h3></a>
+			<a href="#"><h3>购物流程</h3></a>
+		</div>
+		<div class="f-a">
+			<a href="#"><h3>新手上路</h3></a>
+			<a href="#"><h3>新用户注册</h3></a>
+			<a href="#"><h3>忘记密码</h3></a>
+			<a href="#"><h3>购物流程</h3></a>
+			<a href="#"><h3>购物流程</h3></a>
+		</div>
+		<div class="f-a">
+			<a href="#"><h3>新手上路</h3></a>
+			<a href="#"><h3>新用户注册</h3></a>
+			<a href="#"><h3>忘记密码</h3></a>
+			<a href="#"><h3>购物流程</h3></a>
+			<a href="#"><h3>购物流程</h3></a>
+		</div>
+		<div class="f-a">
+			<a href="#"><h3>新手上路</h3></a>
+			<a href="#"><h3>新用户注册</h3></a>
+			<a href="#"><h3>忘记密码</h3></a>
+			<a href="#"><h3>购物流程</h3></a>
+			<a href="#"><h3>购物流程</h3></a>
+		</div>
+		<div class="f-b">
+			<img src="/static/image/foot_ewm.jpg"/>
+			手机优惠品<br/>
+			(优购物)
+		</div>
+		<div class="f-c">
+			<h3>400-707-0707</h3>
+			<h4>周一自周五 09：00-18：00</h4>
+		</div>
+		<span class="f-h"></span>
+	</div>
+	<div class="footer-b">
+		<ul>
+			<li><a href="#">首页</a></li>
+			<li><a href="#">关于优品惠</a></li>
+			<li><a href="#">优购物</a></li>
+			<li><a href="#">联系我们</a></li>
+			<li><a href="#">招贤纳士</a></li>
+			<li><a href="#">关于优品惠</a></li>
+			<li><a href="#">招商专区</a></li>
+			<li><a href="#">供应商入口</a></li>
+			<li><a href="#">新人培训</a></li>
+			<li><a href="#">友情链接</a></li>
+			<li><a href="#">网站地图</a></li>
+			<li><a href="#">资讯中心</a></li>
+			<li><a href="#">评论</a></li>
+			<li><a href="#">图片</a></li>
+		</ul>
+		<div class="f-f">
+			<span>友情链接：</span>
+			<a href="#">配眼镜</a>
+			<a href="#">佐卡伊珠宝网</a>
+			<a href="#">腕表名表</a>
+			<a href="#">如何开网店</a>
+			<a href="#">免费试用</a>
+			<a href="#">钻戒网</a>
+		</div>
+		<p>顶起司法加深对降幅达上课厅进口成本厅反倒是能否里看到淑女坊顶层 硒鼓剧本导致城西 </p>
+		<p>copyright2017-2017 公司倒萨发三道坎叫撒发苛本地卡是否但是蚶阿斯蒂芬 捷克队是你把卡甲方工</p>
+		<p>贝多芬萨芬礚一桍； 范甘迪双方各城 飘带就是你地方中型坦克一票面互相帮助越来越大</p>
+		<p>几点思考发的是否电脑剧本分手大师在</p>
+	</div>
+</div>
+<div class="sidebar">
+	<ul class="bar-t">
+		<li>
+			<i class="iconfont">&#xe7e4;</i>
+			<div class="sidebar-a">
+				<div class="sidebar-a-t">
+					<a><i class="iconfont">&#xe7e4;</i></a>
+					<p>你好！请<a href="{% url 'app:login' %}">登录 ｜</a><a href="{% url 'app:register' %}">注册</a></p>
+				</div>
+				<div class="sidebar-a-b">
+					<a href="#">我的订单</a>
+					<a href="#">优惠劵</a>
+				</div>
+			</div>
+		</li>
+		<li><i class="iconfont">&#xe604;</i><a href="{% url 'app:cart' %}" class="gwc"><p>购物车</p></a></li>
+		<li><i class="iconfont">&#xe603;</i><a href="#" class="wdgz"><p>我的关注</p></a></li>
+		<li><i class="iconfont">&#xe640;</i><a href="#" class="zxkf"><p>在线客服</p></a></li>
+	</ul>
+	<ul class="bar-b">
+		<li><i class="iconfont">&#xe62c;</i><a href="#" class="ewm"><img src="/static/image/foot_ewm.jpg"/></a></li>
+		<li><i class="iconfont">&#xe683;</i><a href="#" class="dcwj"><p>调查问卷</p></a></li>
+		<li><i class="iconfont">&#xe60f;</i><a href="#" class="fhdb"><p>返回顶部</p></a></li>
+	</ul>
+</div>
+
+</body>
+</html>

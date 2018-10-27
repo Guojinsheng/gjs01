@@ -1,0 +1,266 @@
+// JavaScript Document
+//导航下拉
+$(function() {
+    $('.pipg').find('li').hover(function() {
+        $(this).addClass('hover');
+    }, function() {
+        $(this).removeClass('hover');
+    });
+    $('.sp_cart').hover(function() {
+
+        $(this).addClass('active');
+        /*$(this).find('.cart_xl').slideDown(300);*/
+        $(this).find('.cart_xl').show();
+
+    }, function() {
+        $(this).find('.cart_xl').hide();
+        $('.sp_cart').removeClass('active');
+    });
+
+    $("#wzdh").hover(function() {
+
+    }, function() {
+        if ($(this).find('.dhxl').is(":visible"))
+        {
+            $(this).find('.dhxl').hide();
+            $('#wzdh').removeClass('active');
+            $('#wzdh').find('p').find('em').html("▼");
+
+
+        }
+    });
+
+    $("#wzdh").click(function() {
+        if ($(this).find('.dhxl').is(":hidden"))
+        {
+
+            $(this).addClass('active');
+            $(this).find('.dhxl').show();
+            $(this).find('p').find('em').html("▲");
+        }
+    });
+    $("#wzdh .gb").click(function() {
+        $(this).parent().hide();
+        $('#wzdh').removeClass('active');
+        $('#wzdh').find('p').find('em').html("▼");
+
+        /*$(this).parent().parent().removeClass('active');
+         $(this).parent().parent().find('em').html("▼");*/
+    });
+
+//	$("#searRes dl").hover(function(){
+//                $(this).find('dt p').addClass('p_hover').end().find('dd').show();
+//			if ($.browser.msie && ($.browser.version == "6.0") && !$.support.style) { 
+//			if($(".cxin "))
+//			{
+//				$(".cxin").find('select').hide();}
+//			
+//			} 
+//		},function(){
+//			$(this).find('dt p').removeClass('p_hover').end().find('dd').hide();
+//			if ($.browser.msie && ($.browser.version == "6.0") && !$.support.style) { 
+//			if($(".cxin "))
+//			{
+//				$(".cxin").find('select').show();
+//				}
+//			}
+//		});
+    $("#searRes dl").each(function() {
+        if ($(this).find('dt p').hasClass('pcurr')) {
+            return;
+        }
+        $(this).hover(function() {
+            $(this).find('dt p').addClass('p_hover').end().find('dd').show();
+            if ($.browser.msie && ($.browser.version == "6.0") && !$.support.style) {
+                if ($(".cxin "))
+                {
+                    $(".cxin").find('select').hide();
+                }
+
+            }
+        }, function() {
+            $(this).find('dt p').removeClass('p_hover').end().find('dd').hide();
+            if ($.browser.msie && ($.browser.version == "6.0") && !$.support.style) {
+                if ($(".cxin "))
+                {
+                    $(".cxin").find('select').show();
+                }
+            }
+        });
+    });
+    $(".navul dl").hover(function() {
+        $(this).find('dt p').addClass('p_hover').end().find('dd').show();
+        if ($.browser.msie && ($.browser.version == "6.0") && !$.support.style) {
+            if ($(".cxin "))
+            {
+                $(".cxin").find('select').hide();
+            }
+
+        }
+    }, function() {
+        $(this).find('dt p').removeClass('p_hover').end().find('dd').hide();
+        if ($.browser.msie && ($.browser.version == "6.0") && !$.support.style) {
+            if ($(".cxin "))
+            {
+                $(".cxin").find('select').show();
+            }
+        }
+    });
+    $("#searRes").hover(function() {
+        if ($.browser.msie && ($.browser.version == "6.0") && !$.support.style) {
+
+            if ($("select[name='birthdayYear']"))
+            {
+                $("select[name='birthdayYear']").hide();
+            }
+            if ($("select[name='birthdayMonth']"))
+            {
+                $("select[name='birthdayMonth']").hide();
+            }
+            if ($("select[name='birthdayDay']"))
+            {
+                $("select[name='birthdayDay']").hide();
+            }
+        }
+    }, function() {
+        if ($.browser.msie && ($.browser.version == "6.0") && !$.support.style) {
+
+            if ($("select[name='birthdayYear']"))
+            {
+                $("select[name='birthdayYear']").show();
+            }
+            if ($("select[name='birthdayMonth']"))
+            {
+                $("select[name='birthdayMonth']").show();
+            }
+            if ($("select[name='birthdayDay']"))
+            {
+                $("select[name='birthdayDay']").show();
+            }
+        }
+    });
+    $("#all_fl").hover(function() {
+        if ($(this).find('.qb_fl').is(":hidden"))
+        {
+
+            $(this).find('.sysp').find('p').addClass('p_hover');
+            $(this).find('.qb_fl').show();
+            if ($.browser.msie && ($.browser.version == "6.0") && !$.support.style) {
+                if ($(".cxin "))
+                {
+                    $(".cxin").find('select').hide();
+                }
+                if ($("select[name='birthdayYear']"))
+                {
+                    $("select[name='birthdayYear']").hide();
+                }
+                if ($("select[name='birthdayMonth']"))
+                {
+                    $("select[name='birthdayMonth']").hide();
+                }
+                if ($("select[name='birthdayDay']"))
+                {
+                    $("select[name='birthdayDay']").hide();
+                }
+            }
+        }
+    }, function() {
+        if ($(this).find('.qb_fl').is(":visible"))
+        {
+            //$(this).removeClass('active');
+            $(this).find('.qb_fl').hide();
+            $(this).find('.sysp').find('p').removeClass('p_hover');
+            if ($.browser.msie && ($.browser.version == "6.0") && !$.support.style) {
+                if ($(".cxin "))
+                {
+                    $(".cxin").find('select').show();
+                }
+                if ($("select[name='birthdayYear']"))
+                {
+                    $("select[name='birthdayYear']").show();
+                }
+                if ($("select[name='birthdayMonth']"))
+                {
+                    $("select[name='birthdayMonth']").show();
+                }
+                if ($("select[name='birthdayDay']"))
+                {
+                    $("select[name='birthdayDay']").show();
+                }
+            }
+        }
+    });
+
+    $(".mei_con").hover(function() {
+        $('.sp_cart').hover(function() {
+            $(this).addClass('active');
+            $(this).find('.cart_xl').show();
+        }, function() {
+            $(this).find('.cart_xl').hide();
+            $('.sp_cart').removeClass('active');
+        })
+    });
+});
+
+/*底部友情链接*/
+$(document).ready(function() {
+    $(".l_button").click(function() {
+        if ($(".l_button").html() == "▶") {
+            $(".s_line,.t_line").css("display", "block");
+            $(".l_button").html("▼");
+        }
+        else {
+            $(".s_line,.t_line").css("display", "none");
+            $(".l_button").html("▶");
+        }
+    });
+});
+
+function bind_cart() {
+    $('.sp_cart').hover(function() {
+        $(this).addClass('active');
+        $(this).find('.cart_xl').slideDown(300);
+    }, function() {
+        $(this).find('.cart_xl').slideUp(300, function() {
+            $('.sp_cart').removeClass('active');
+        });
+    });
+}
+
+//通用选项卡
+function nTabs(tabObj, obj) {
+    var tabList = document.getElementById(tabObj).getElementsByTagName("dd");
+    for (i = 0; i < tabList.length; i++)
+    {
+        if (tabList[i].id == obj.id)
+        {
+            document.getElementById(tabObj + "_Title" + i).className = "active";
+            document.getElementById(tabObj + "_Content" + i).style.display = "block";
+        } else {
+            document.getElementById(tabObj + "_Content" + i).style.display = "";
+            document.getElementById(tabObj + "_Title" + i).className = '';
+        }
+    }
+}
+
+/**
+ * jquery 加载文件扩展
+ */
+$.extend({
+     includePath: '',
+     include: function(file) {
+        var files = typeof file == "string" ? [file]:file;
+        for (var i = 0; i < files.length; i++) {
+            var name = files[i].replace(/^\s|\s$/g, "");
+            var att = name.split('.');
+            var ext = att[att.length - 1].toLowerCase();
+            var isCSS = ext == "css";
+            var tag = isCSS ? "link" : "script";
+            var attr = isCSS ? " type='text/css' rel='stylesheet' " : " language='javascript' type='text/javascript' ";
+            var link = (isCSS ? "href" : "src") + "='" + $.includePath + name + "'";
+            if ($(tag + "[" + link + "]").length == 0) {
+                $('body').append("<" + tag + attr + link + "></" + tag + ">");
+            }
+        }
+   }
+});

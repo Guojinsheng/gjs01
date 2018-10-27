@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>注册界面</title>
+	<script src="/static/js/jquery-1.12.3.js"></script>
+	<script src="/static/js/ajax.js"></script>
+	<link rel="stylesheet" type="text/css" href="/static/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/style.1.0.1.css">
+	<script src="/static/js/index02.js"></script>
+	<script src="/static/js/move.js"></script>
+
+</head>
+<body>
+<div class="top">
+	<div class="clearfix">
+		<ul class="top-nav">
+			<li><span><a href="{% url 'app:register' %}">注册</a></span>|</li>
+			<li><span><a href="{% url 'app:login' %}">登录</a></span>|</li>
+			<li><span><a href="#">我的订单</a></span>|</li>
+			<li><span><a href="#">我的关注</a></span>|</li>
+			<li><span><a href="#">资讯</a></span>|</li>
+			<li><span><a href="#">品牌馆</a></span>|</li>
+			<li>&nbsp;&nbsp;&nbsp;&nbsp;<img src="/static/image/phone.png"/>&nbsp;&nbsp;<a href="#">手机优品惠</a></li>
+		</ul>
+	</div>
+</div>
+<div class="logo">
+	<div class="logo-l">
+		<img src="/static/image/logo.png"/>
+		<i></i>
+		<h2>欢迎注册</h2>
+	</div>
+	<div class="logo-r">
+		<span>已经注册，</span>
+		<a href="#">现在注册&raquo;</a>
+	</div>
+</div>
+<div class="main">
+	<img src="/static/image/logEWM.gif"/>
+	<div class="main-l">
+		<form action="{% url 'app:register' %}" method="post">
+			{% csrf_token %}
+			<div class="aa">
+				<div><span>手机号码：</span></div>
+				<input type="text" name="phone"/>
+				<div class="dd">请输入常用手机号，避免忘记</div>
+				<i class="iconfont">&#xe621;</i></div>
+
+			<div class="ab">
+				<div><span>验证码：</span></div>
+				<input type="text"/><b>sada</b><em>看不清！</em><a href="#">换一张</a>
+				<div class="dd">验证码错误</div>
+			</div>
+
+			<div class="ac">
+				<div><span>设置密码：</span></div>
+				<input type="password" name="password"/>
+				<div class="dd">6-20位字符，可使用数字，字母，或符号的组合</div>
+				<i class="iconfont">&#xe621;</i></div>
+
+			<div class="ad">
+				<div><span>确认密码：</span></div>
+				<input type="password" name="password_ck"/>
+				<div class="dd">两次输入的密码不一致，请重新输入</div>
+				<i class="iconfont">&#xe621;</i></div>
+
+			<div class="ae">
+				<div><span>短信验证码：</span></div>
+				<input type="text"/> <em>获取短信验证码</em>
+				<div class="dd">验证码错误</div>
+			</div>
+
+			<div class="bb"><input type="checkbox"/>我已阅读并同意《优品惠用户服务承诺》</div>
+			<button class="sub" type="submit" id="register">提交</button>
+		</form>
+		<p>如有疑问请点击<a href="#">帮助中心</a>，或拨打客服电话：<b>400-707-0707</b></p>
+	</div>
+	<div class="cc">
+		<i class="iconfont">&#xe6f7;</i><i>注册tv激活</i>
+	</div>
+</div>
+<div class="footer">
+	<div class="footer-t">
+		<img src="/static/image/footer_ad (1).jpg"/>
+	</div>
+	<div class="footer-c">
+		<div class="f-a">
+			<a href="#"><h3>新手上路</h3></a>
+			<a href="#"><h3>新用户注册</h3></a>
+			<a href="#"><h3>忘记密码</h3></a>
+			<a href="#"><h3>购物流程</h3></a>
+			<a href="#"><h3>购物流程</h3></a>
+		</div>
+		<div class="f-a">
+			<a href="#"><h3>新手上路</h3></a>
+			<a href="#"><h3>新用户注册</h3></a>
+			<a href="#"><h3>忘记密码</h3></a>
+			<a href="#"><h3>购物流程</h3></a>
+			<a href="#"><h3>购物流程</h3></a>
+		</div>
+		<div class="f-a">
+			<a href="#"><h3>新手上路</h3></a>
+			<a href="#"><h3>新用户注册</h3></a>
+			<a href="#"><h3>忘记密码</h3></a>
+			<a href="#"><h3>购物流程</h3></a>
+			<a href="#"><h3>购物流程</h3></a>
+		</div>
+		<div class="f-a">
+			<a href="#"><h3>新手上路</h3></a>
+			<a href="#"><h3>新用户注册</h3></a>
+			<a href="#"><h3>忘记密码</h3></a>
+			<a href="#"><h3>购物流程</h3></a>
+			<a href="#"><h3>购物流程</h3></a>
+		</div>
+		<div class="f-b">
+			<img src="/static/image/foot_ewm.jpg"/>
+			手机优惠品<br/>
+			(优购物)
+		</div>
+		<div class="f-c">
+			<h3>400-707-0707</h3>
+			<h4>周一自周五 09：00-18：00</h4>
+		</div>
+		<span class="f-h"></span>
+	</div>
+	<div class="footer-b">
+		<ul>
+			<li><a href="#">首页</a></li>
+			<li><a href="#">关于优品惠</a></li>
+			<li><a href="#">优购物</a></li>
+			<li><a href="#">联系我们</a></li>
+			<li><a href="#">招贤纳士</a></li>
+			<li><a href="#">关于优品惠</a></li>
+			<li><a href="#">招商专区</a></li>
+			<li><a href="#">供应商入口</a></li>
+			<li><a href="#">新人培训</a></li>
+			<li><a href="#">友情链接</a></li>
+			<li><a href="#">网站地图</a></li>
+			<li><a href="#">资讯中心</a></li>
+			<li><a href="#">评论</a></li>
+			<li><a href="#">图片</a></li>
+		</ul>
+		<div class="f-f">
+			<span>友情链接：</span>
+			<a href="#">配眼镜</a>
+			<a href="#">佐卡伊珠宝网</a>
+			<a href="#">腕表名表</a>
+			<a href="#">如何开网店</a>
+			<a href="#">免费试用</a>
+			<a href="#">钻戒网</a>
+		</div>
+		<p>顶起司法加深对降幅达上课厅进口成本厅反倒是能否里看到淑女坊顶层 硒鼓剧本导致城西 </p>
+		<p>copyright2017-2017 公司倒萨发三道坎叫撒发苛本地卡是否但是蚶阿斯蒂芬 捷克队是你把卡甲方工</p>
+		<p>贝多芬萨芬礚一桍； 范甘迪双方各城 飘带就是你地方中型坦克一票面互相帮助越来越大</p>
+		<p>几点思考发的是否电脑剧本分手大师在</p>
+	</div>
+</div>
+</body>
+</html>

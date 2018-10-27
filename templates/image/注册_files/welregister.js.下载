@@ -1,0 +1,849 @@
+// JavaScript Document
+
+$(function () {
+    $(".text2,.text5,#yz,.text9").val('');
+    var $regnav = $(".regnav ul li");
+    $regnav.click(function () {
+        $(this).addClass("on").siblings().removeClass("on");
+        var index = $regnav.index(this);
+        $("div.land_con > div").eq(index).show().siblings().hide();
+    });
+    $('.regnav1').click(function () {
+        $('.icon1').removeClass('icon1').addClass('icon4')
+        $('.icon5').removeClass('icon5').addClass('icon2')
+        $('.icon6').removeClass('icon6').addClass('icon3')
+    })
+    $('.regnav2').click(function () {
+        $('.icon2').removeClass('icon2').addClass('icon5')
+        $('.icon4').removeClass('icon4').addClass('icon1')
+        $('.icon6').removeClass('icon6').addClass('icon3')
+    });
+    $('.regnav3').click(function () {
+        $('.icon3').removeClass('icon3').addClass('icon6')
+        $('.icon4').removeClass('icon4').addClass('icon1')
+        $('.icon5').removeClass('icon5').addClass('icon2')
+    });
+    var a = $("#jihuo").val();
+    if (a > 0) {
+        $('.TVactive').show();
+        $('.mailreg').hide();
+        $('.phonereg').hide();
+        $('.regnav3').addClass('on');
+        $('.regnav1').removeClass('on');
+        $('.icon3').removeClass('icon3').addClass('icon6');
+        $('.icon4').removeClass('icon4').addClass('icon1');
+    }
+})
+$(":input").focus(function () {
+    $(this).css("border-color", "#5fc100");
+}).blur(function () {
+    $(this).css("border-color", "#A2A2A2");
+
+}) /*手机注册*/
+$('.text1').focus(function () {
+    $('.etips').remove();
+    var ztipval = $('.ztips').val();
+    if (ztipval == undefined) {
+        $('.etips').remove();
+        $('#geshi').remove();
+        $('.text1').after("<div class='ztips'>请输入常用手机号，避免忘记</div>");
+        return false;
+    }
+})
+
+$('.text1').blur(function () {
+    var tipval = $('.etips').val();
+    if (tipval == undefined) {
+        var this_val = $('.text1').val();
+        if (this_val == '') {
+            $('.app1').append("<div class='etips' id='etips'>请输入手机号</div>");
+        } else if ($('.text1').val().match(/^(13|15|18|14|17)\d{9}$/)) {
+            $('.ztips').remove();
+            $('#phonea1').removeClass('land_ico');
+            $('#phonea1').addClass('dui');
+            var json_data = "";
+            $.ajax({
+                type: 'post',
+                url: '/flow/auth/checkuser',
+                data: {
+                    "username": this_val,
+                    "for": "regist"
+                },
+                dataType: 'json',
+                success: function (date) {
+                    if (date.code !== 0) {
+                        $('.app1').append("<div class='etips' id='etips'>该手机号已注册，可以直接<a href='/user.php'>登录</a></div>");
+                        $('.text1').css('border-color', '#eb0007');
+                        $('#phonea1').removeClass('dui');
+                    } 
+                }
+            })
+        } else {
+            $('.app1').append("<div class='etips'>手机格式不正确，请核对后再输入</div>");
+            $('#phonea1').removeClass('dui');
+        }
+
+    }
+})
+$('.text2').focus(function () {
+    $('#text22').remove();
+    $('.getpasss').remove();
+    var ztipval2 = $('.ztips').val();
+    if (ztipval2 == undefined || ztipval2 == '') {
+        if ($('.text1').val().match(/^(13|15|18|14|17)\d{9}$/)) {
+            $('.etips').remove();
+        }
+        $('.text2').after("<div class='ztips' id='text22'>6-20位字符，可使用字母、数字或符号的组合</div>")
+    }
+
+})
+$('.text2').blur(function () {
+    function CheckStr(str) {
+        var myReg = /^[^@\/\'\\\"#$%&\^\*\s]+$/;
+        if (myReg.test(str))
+            return true;
+        return false;
+    }
+    var tipval = $('.etips').val();
+    var text2 = $('.text2').val();
+    var text3 = $('.text3').val();
+    if (tipval == undefined || tipval == '') {
+        var this_val = $('.text2').val();
+        if (this_val == '') {
+            $('.app2').append("<div class='etips' id='etips'>请输入密码</div>")
+        } else if (this_val.length < 6 || this_val.length > 20) {
+            $('.app2').append("<div class='etips'>密码长度应是6-20位字符，请重新输入</div>");
+            $('#setpassword').removeClass('dui');
+
+        } else if (!CheckStr(text2)) {
+
+            $('.app2').append("<div class='etips'>只能为英文或者数字或者下划线组成的6-20个字符!</div>");
+            $('#setpassword').removeClass('dui');
+            return false;
+        } else {
+            $('.ztips').remove();
+            $('#setpassword').removeClass('land_ico2').addClass('dui')
+        }
+        if (text2 != '' && text3 != '' && text2 == text3) {
+            $('.ztips').remove();
+            $('#setpassword').removeClass('land_ico2').addClass('dui')
+        } else {
+            if (text2 != '' && text3 != '' && text2 == text3) {
+                $('.ztips').remove();
+                $('#setpassword').addClass('dui');
+            } else {
+                $('.ztips').remove();
+
+                if (text3 != '' && text2 != text3) {
+                    $('.text3').after("<div class='etips'>两次输入密码不一致!</div>");
+                    $('#confirm').removeClass("dui");
+                } else {
+                    $('.ztips').remove();
+                }
+            }
+
+
+        }
+    } else {
+        if (text2 != '' && text3 != '' && text2 == text3) {
+            $('.ztips').remove();
+            $('#setpassword').removeClass('land_ico2').addClass('dui');
+        } else {
+            $('.ztips').remove();
+            $('.text3').after("<div class='etips'>两次输入密码不一致!</div>");
+            $('#setpassword').removeClass('dui')
+        }
+    }
+
+});
+
+$('.text3').focus(function () {
+    $('#kongeggg').remove();
+    var ztipval = $('.ztips').val();
+    var text2 = $('.text2').val();
+    var text3 = $('.text3').val();
+    if (text2 != '' && text3 != '' && text2 == text3 && isNaN(text2)) {
+        $('#setpassword').removeClass('land_ico2').addClass('dui');
+        $('#confirm').removeClass('dui');
+    }
+    if (ztipval == undefined) {
+        $('.text3').after("<div class='ztips'>请再次输入密码</div>");
+    }
+})
+$('.text3').blur(function () {
+    $('.zitps').remove;
+
+    function CheckStr(str) {
+        var myReg = /^[^@\/\'\\\"#$%&\^\*\s]+$/;
+        if (myReg.test(str))
+            return true;
+        return false;
+    }
+    var text2val = $('.text2').val();
+    var text3val = $('.text3').val();
+
+    if (text2val != text3val) {
+        $('.ztips').remove();
+        $('.text3').after("<div class='etips'>两次输入的密码不一致，请重新输入</div>");
+        $('#confirm').removeClass('dui');
+
+    } else if (text3val == '') {
+
+        $('.text3').after("<div class='etips'>请确认密码！</div>");
+    } else if (!CheckStr(text2val) || (text2val.length < 6 || text2val.length > 20) || (text3val.length < 6 || text3val.length > 20)) {
+        $('.app2').append("<div class='etips' id='kongeggg'>只能为英文或者数字或者下划线组成的6-20个字符!</div>");
+        $('#confirm').removeClass('dui');
+    } else {
+        $('.etips').remove();
+        $('.ztips').remove();
+        if (text2val != '' && text3val != '' && text3val == text3val && (text2val.length > 6 || text2val.length < 20) && (text3val.length > 6 || text3val.length < 20)) {
+            $('#confirm').removeClass('land_ico3').addClass('dui');
+        } else {
+            $('.ztips').remove();
+            $('.text3').after("<div class='etips'>两次输入密码不一致!</div>");
+        }
+
+    }
+});
+
+
+$("#verif_code").focus(function () {
+    $('#aaa').remove();
+
+});
+
+$("#btn1").click(function () {
+
+    function mobile_phone() {
+        var tipval = $('.etips').val();
+        if (tipval == undefined) {
+            $('.text1').blur();
+        }
+    }
+    function CheckStr(str) {
+        var myReg = /^[^@\/\'\\\"#$%&\^\*\s]+$/;
+        if (myReg.test(str))
+            return true;
+        return false;
+    }
+    var phone_rig = $("#tishi").val();
+    if (phone_rig != '') {
+        $('.app1').append("<div class='etips' id='etips'>该手机号已注册，可以直接<a href='/user.php'>登录</a></div>")
+
+    }
+    var username = $('.text1').val();
+    mobile_phone(username);
+    if (!username.match(/^(13|15|18|14|17)\d{9}$/)) {
+        $('.app1').append("<div class='etips' id='geshi'>手机格式不正确，请核对后再输入</div>");
+
+    }
+    var passwords = $('.text2').val();
+    if (passwords == '') {
+        $('.text2').after("<div class='etips' id='getpasss'>请输入密码！</div>");
+    } else if (!CheckStr(passwords)) {
+
+        $('.text2').after("<div class='etips' id='getpasss'>您输入的密码含有非法字符！</div>");
+    }
+
+    var passwordss = $('.text3').val();
+    if (passwordss == '') {
+        $('.text3').after("<div class='etips' id='getpass'>请确认密码！</div>");
+    }
+
+    if (passwords != passwordss) {
+        if ($('.etips').html() != '两次输入的密码不一致，请重新输入') {
+            $('.text3').after("<div class='etips'>两次输入的密码不一致，请重新输入</div>");
+        }
+        return false;
+    }
+
+    var sj_code = $('#verif_code').val();
+    if (sj_code == '') {
+        $('#btn5').after("<div class='etips' id='getpassss'>请先获取验证码！</div>");
+    }
+    if ($('#checkx1').prop("checked")) {
+        
+    } else {
+        $('#hidden1').after("<div class='etips' id='aaa'>请选择同意用户服务承诺！</div>");
+        return false;
+    }
+    if (username == '' || passwords == '' || passwordss == '' || sj_code == '') {
+        return false;
+    }
+    $('#btn1').attr('disabled', "true");//modify 2014-7-1添加disabled属性 by liuguoxing
+    var back_act = $("#back_act").val();
+    $.ajax({
+        type: 'post',
+        url: '/flow/auth/doregist',
+        data: {
+            username : username , 
+            password : passwords , 
+            verifyCode : sj_code ,
+            nameType : "mobile"
+        },
+        dataType: 'json',
+        success: function (date) {
+            if (date)  {
+                $('#btn1').removeAttr("disabled");
+            }
+            if (date.code === -400601) {
+                $('#aaa').remove();
+                $('#verif_code').after("<div class='etips' id='aaa'>手机验证码错误</div>");
+                return false;
+            } else if (date.code !== 0) { //注册失败
+                return false;
+            }
+            
+            var url = back_act ? back_act : "user.php";
+            location.href = url;            
+
+        }
+    });
+})
+
+/*邮箱注册*/
+$('.text4').focus(function () {
+    $('.etips').remove();
+    var ztipval = $('.ztips').val();
+    if (ztipval == undefined) {
+        $('.etips').remove();
+        $('#etipssss').remove();
+        $('.text4').after("<div class='ztips'>请输入常用邮箱，避免忘记</div>");
+    }
+})
+
+$('.text4').blur(function () {
+    var tipval = $('.etips').val();
+    if (tipval == undefined) {
+        var this_val = $('.text4').val();
+        if (this_val == '') {
+            $('.app4').append("<div class='etips' id='etips'>请输入邮箱地址</div>")
+        } else if (this_val.match(/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.[a-z]{2,3}$/)) {
+            $('.ztips').remove();
+            $('#emailadd').removeClass('land_ico4').addClass('dui');
+            $.ajax({
+                type: 'post',
+                url: '/flow/auth/checkuser' ,
+                data: {
+                    "username" : this_val , 
+                    "for" : "regist" , 
+                    "nameType" : 'email'
+                } ,
+                dataType: 'json',
+                success: function (date) {
+                    if (date.code !== 0) {
+                        $('#regk_email').after("<div class='etips' id='bbb'>该邮箱已注册，可以直接<a href='/user.php'>登录</a></div>");
+                        $('#emailadd').removeClass('dui');
+                    } else {
+                        $('div>.land_ico').removeClass('land_ico').addClass('dui')
+                    }
+                }
+            })
+        } else {
+            $('.app4').append("<div class='etips'>邮箱格式不正确，请核对后再输入</div>")
+            $('#emailadd').removeClass('dui');
+        }
+    }
+})
+$('.text4').keydown(function () {
+    if ($('#emailadd').hasClass('dui')) {
+        $('#emailadd').removeClass('dui')
+    } else {
+        $('#emailadd').removeClass('land_ico4');
+        $('.cha').click(function () {
+            $('.text4').val('');
+        })
+    }
+})
+
+$('.text5').focus(function () {
+    $('#konggege').remove();
+    $('#kongge').remove();
+    $('#getpass').remove();
+    $('#etips').remove();
+    var ztipval2 = $('.ztips').val();
+    if (ztipval2 == undefined || ztipval2 == '') {
+        if ($('.text4').val().match(/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.[a-z]{2,3}$/)) {
+            $('#etips').remove();
+        }
+        $('.text5').after("<div class='ztips'>6-20位字符，可使用字母、数字或符号的组合</div>");
+    }
+});
+$('.text5').blur(function () {
+    function CheckStr(str) {
+        var myReg = /^[^@\/\'\\\"#$%&\^\*\s]+$/;
+        if (myReg.test(str))
+            return true;
+        return false;
+    }
+    $('#konggege').remove();
+    $('#kongge').remove();
+    $('#getpass').remove();
+    var tipval = $('.etips').val();
+    var text5 = $('.text5').val();
+    var text6 = $('.text6').val();
+    if (tipval == undefined || tipval == '') {
+        var this_val = $('.text5').val();
+        if (this_val == '') {
+            $('.app5').append("<div class='etips' id='etips'>请输入密码</div>")
+        } else if (this_val.length < 6 || this_val.length > 20) {
+            $('.app5').append("<div class='etips'>密码长度应是6-20位字符，请重新输入</div>")
+        } else if (!CheckStr(text5)) {
+            $('.app5').append("<div class='etips' id='konggege'>只能为英文或者数字或者下划线组成的6-20个字符!</div>");
+            return false;
+        } else {
+            $('.ztips').remove();
+        }
+        if (text5 != '' && text6 != '' && text5 == text6) {
+            $('.ztips').remove();
+        } else {
+            if (text5 != '' && text6 != '' && text5 == text6) {
+                $('.ztips').remove();
+                $('#esetpassword').addClass('dui');
+            } else {
+                $('.ztips').remove();
+                if (text6 != '' && text5 != text6) {
+                    $('.text6').after("<div class='etips'>两次输入密码不一致!</div>");
+                    $('#conforpw').removeClass("dui");
+                } else {
+                    $('.ztips').remove();
+                }
+            }
+        }
+    } else {
+        if (text5 != '' && text6 != '' && text5 == text6) {
+            $('.ztips').remove();
+            $('#esetpassword').removeClass('land_ico5').addClass('dui');
+        } else {
+            $('.ztips').remove();
+            $('.text6').after("<div class='etips'>两次输入密码不一致!</div>");
+            $('#esetpassword').removeClass('dui');
+        }
+    }
+
+});
+
+$('.text6').focus(function () {
+    var ztipval = $('.ztips').val();
+    var text5 = $('.text5').val();
+    var text6 = $('.text6').val();
+    if (text5 != '' && text6 != '' && text5 == text6 && isNaN(text5)) {
+        $('#esetpassword').removeClass('land_ico5').addClass('dui');
+        $('#conforpw').removeClass('dui');
+    }
+    if (ztipval == undefined) {
+        $('.text6').after("<div class='ztips'>请再次输入密码</div>");
+    }
+})
+$('.text6').blur(function () {
+    function CheckStr(str) {
+        var myReg = /^[^@\/\'\\\"#$%&\^\*\s]+$/;
+        if (myReg.test(str))
+            return true;
+        return false;
+    }
+    $('#shezhipsss').remove();
+    var text5val = $('.text5').val();
+    var text6val = $('.text6').val();
+    if (text5val != text6val) {
+        $('#shezhipsss').remove();
+        $('#etipsss').remove();
+        $('.ztips').remove();
+        $('.text6').after("<div class='etips'>两次输入的密码不一致，请重新输入</div>");
+    } else if (text6val == '') {
+        $('.text6').after("<div class='etips' id='shezhipass'>请先设置密码！</div>");
+    } else if (!CheckStr(text5val) || (text5val.length < 6 || text5val.length > 20) || (text6val.length < 6 || text6val.length > 20)) {
+        $('.app5').append("<div class='etips' id='kongge'>只能为英文或者数字或者下划线组成的6-20个字符!</div>");
+        $('#esetpassword').removeClass('dui');
+    } else {
+        $('#etipsss').remove();
+        $('.etips').remove();
+        $('.ztips').remove();
+        $('#conforpw').removeClass('land_ico6').addClass('dui');
+
+        if (text5val != '' && text6val != '' && text5val == text6val && (text5val.length > 6 || text5val.length < 20) || (text6val.length > 6 || text6val.length < 20)) {
+            $('#conforpw').removeClass('land_ico6').addClass('dui');
+        } else {
+            $('#shezhipsss').remove();
+            $('.ztips').remove();
+            $('.text6').after("<div class='etips'>两次输入密码不一致!</div>")
+        }
+    }
+})
+$("#yaz_ma").focus(function () {
+    $('#aaa').remove();
+    $('#yaz_ma').after("<div class='ztips' id='aaa'>请输入验证码！</div>");
+});
+$("#yaz_ma").blur(function () {
+    $('#aaaa').remove();
+    var code = $("#yaz_ma").val();
+    if (code == '') {
+        $('#aaa').remove();
+        $('#yaz_ma').after("<div class='etips' id='aaa'>请输入验证码！</div>");
+    } else {
+        $('#aaa').remove();
+
+    }
+});
+
+/*邮箱提交*/
+$("#btn2").click(function () {
+    function email_name() {
+        var tipval = $('.etips').val();
+        if (tipval == undefined) {
+            var this_val = $('.text4').val();
+            if (this_val == '') {
+                $('.app4').append("<div class='etips' id='etips'>请输入邮箱地址</div>")
+            } else if ($('.text4').val().match(/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.[a-z]{2,3}$/)) {
+                $('.ztips').remove();
+                $('#emailadd').removeClass('land_ico4').addClass('dui');
+                $('.text4').blur();
+            } else {
+                $('.app4').append("<div class='etips'>邮箱格式不正确，请核对后再输入</div>")
+                $('#emailadd').removeClass('dui');
+            }
+        }
+    }
+    var username = $('#regk_email').val();
+    email_name(username);
+    if (!username.match(/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.[a-z]{2,3}$/)) {
+        $('.app4').append("<div class='etips' id='etipssss'>邮箱格式不正确，请核对后再输入!</div>")
+    }
+
+    function CheckStr(str) {
+        var myReg = /^[^@\/\'\\\"#$%&\^\*\s]+$/;
+        if (myReg.test(str))
+            return true;
+        return false;
+    }
+    var password1 = $(".text5").val();
+    if (password1 == '') {
+        $('.text5').after("<div class='etips' id='getpass'>请输入密码！</div>");
+    } else if (!CheckStr(password1)) {
+
+        $('.text5').after("<div class='etips' id='getpass'>您输入的密码含有非法字符！</div>");
+        $('esetpassword').removeClass('dui');
+
+    }
+    var password = $("#password").val();
+    if (password == '') {
+        $('.text6').after("<div class='etips' id='etipsss'>请确认密码！</div>");
+    }
+
+    if (password1 != password) {
+        if ($('.etips').html() != '两次输入的密码不一致，请重新输入') {
+            $('.text6').after("<div class='etips'>两次输入的密码不一致，请重新输入</div>");
+        }
+        return false;
+    }
+    var code = $("#yaz_ma").val();
+    if (code == '') {
+        $('#yaz_ma').after("<div class='etips' id='aaaa'>请输入验证码！</div>");
+    }
+    /*	var checkxx = $('#hidden').val();
+     if (checkxx != 1) {
+     $('#aaa').remove();
+     $('#hidden').after("<div class='etips' id='aaa'>请选择同意用户服务承诺！</div>");
+     return false;
+     }*/
+    if ($('#checkx').prop("checked")) {
+    }
+    else {
+        $('#hidden').after("<div class='etips' id='aaa'>请选择同意用户服务承诺！</div>");
+        return false;
+    }
+    if (username == '' || password1 == '' || password == '' || code == '' || !CheckStr(password1)) {
+        return false;
+    }
+    $('#btn2').attr('disabled', "true");
+    var back_act = $("#back_act").val();
+    
+    $.ajax({
+        type: 'post',
+        url: '/flow/auth/doregist',
+        data: {
+            "username" : username ,
+            "password" : password , 
+            "code"     : code , 
+            "nameType" : "email" 
+//            "num"      : 2
+        },
+        dataType: 'json',
+        success: function (date) {
+            if (date) {
+                $('#btn2').removeAttr("disabled");
+            }
+            if (date.code === -400601) {
+                $('#aaa').remove();
+                $('#yaz_ma').after("<div class='etips' id='aaa'>" + date.msg + "</div>");
+                $('#checkcode').click();
+            } else if (date.code === 0) {
+                
+                var url = back_act ? back_act : "user.php?act=email_step_2&useremail=" + username;
+                location.href = url;
+            } else {
+                alert(date.message);
+            }
+        }
+    })
+});
+
+
+/*电视激活*/
+
+$('.text7').focus(function () {
+    $('#ztips11').remove();
+    var ztipval = $('.ztips').val();
+    var ztipval1 = $('#ztips').val();
+    if (ztipval == undefined || ztipval1 == undefined) {
+        var text7 = $('.text7').val();
+        if (text7 == '') {
+            $('.etips').remove();
+        }
+        $('.etips').remove();
+        $('#etipsss').remove();
+        $('.ztips').remove();
+        $('.text7').after("<div class='ztips'>请输入您来电订购时登记的手机号码</div>");
+    }
+
+})
+
+$('.text7').blur(function () {
+    $('.ztips').remove();
+    var tipval = $('.etips').val();
+    if (tipval == undefined) {
+        var this_val = $('#mobile_activation').val();
+        if (this_val == '') {
+            $('.app7').append("<div class='etips' id='ztips'>请输入手机号</div>");
+        } else if (this_val.match(/^(13|15|18|14|17)\d{9}$/)) {
+            $.ajax({
+                type: 'post',
+                url: '/flow/auth/checkUser',
+                data: {
+                    "username":this_val , 
+                    "for":"regist"
+                },
+                dataType: 'json',
+                success: function (date) {
+                    if (date.code ===  -400401) {
+                        $("#activeuser").val(2);
+                        $('.etips').remove();
+                        var str = "<div class='etips' id='etips'>用户已存在，请使用" + this_val + "<a href='/user.php'>登陆！</a></div>";
+                        $('.app7').append(str);
+                        $('.text1').css('border-color', '#eb0007');
+                        $("#activeuser2").val(this_val);
+                    } else if (date.code == 0) {
+                        $('.ztips').remove();
+                        $('#tvphone').removeClass('land_ico7');
+                        $('#tvphone').addClass('dui');
+                    } else {
+                        $("#activeuser").val(1);
+                        $('.etips').remove();
+                        $('.app7').append("<div class='etips' id='etipsss' style='width:325px;'>未找到匹配的手机号，请确定是否与来电订购的手机号一致！</div>");
+                        $('.text1').css('border-color', '#eb0007');
+                    }
+                }
+            });
+        } else {
+            $('.etips').remove();
+            $('.app7').append("<div class='etips'>手机格式不正确，请核对后再输入</div>");
+            return false;
+        }
+    }
+})
+$(".text8").focus(function () {
+    $('#ztips12').remove();
+
+});
+$('.text9').focus(function () {
+    $('#passlength').remove();
+    $('#ztips13').remove();
+    $('#etipssss').remove();
+    var ztipval9 = $('.ztips').val();
+    if (ztipval9 == undefined || ztipval9 == '') {
+        if ($('.text7').val().match(/^[^@\/\'\\\"#$%&\^\*\s]+$/)) {
+            $('.etips').remove();
+        }
+        $('.text9').after("<div class='ztips'>6-20位字符，可使用字母、数字或符号的组合</div>")
+    }
+
+})
+$('.text9').blur(function () {
+    var tipval = $('.etips').val();
+    var text9 = $('.text9').val();
+    var text10 = $('.text10').val();
+    if (tipval == undefined || tipval == '') {
+        var this_val = $('.text9').val();
+        if (this_val == '') {
+            $('.app9').append("<div class='etips' id='etipssss'>请输入密码</div>")
+        } else if (this_val.length < 6 || this_val.length > 20) {
+            $('#passlength').remove();
+            $('.app9').append("<div class='etips' id='passlength'>密码长度应是6-20位字符，请重新输入</div>")
+
+        } else if (!this_val.match(/^[^@\/\'\\\"#$%&\^\*\s]+$/)) {
+
+            $('.app9').append("<div class='etips'>只能为英文或者数字或者下划线组成的6-20个字符!</div>")
+        } else {
+            $('.ztips').remove();
+            $('#tvsetpw').removeClass('cha land_ico9').addClass('dui')
+        }
+        if (text9 != '' && text10 != '' && text9 == text10 && isNaN(text9) && (text9.length > 6 || text9.length < 20) && (text10.length > 6 || tex10.length < 20)) {
+            $('.ztips').remove();
+            $('#tvsetpw').removeClass('cha land_ico9').addClass('dui')
+        } else {
+            if (text9 != '' && text10 != '' && text9 == text10 && isNaN(text9) && (text9.length > 6 || text9.length < 20) && (text10.length > 6 || tex10.length < 20)) {
+                $('.ztips').remove();
+                $('#tvsetpw').addClass('dui');
+            } else {
+                $('.ztips').remove();
+
+                if (text10 != '' && text9 != text10 && (text9.length < 6 || text9.length > 20) && (text10.length < 6 || tex10.length > 20)) {
+                    $('#contvpaw').removeClass("dui");
+
+                    $('.text10').after("<div class='etips'>两次输入密码不一致!</div>");
+                } else {
+                    $('.ztips').remove();
+                }
+            }
+
+
+        }
+    }
+
+});
+
+$('.text10').focus(function () {
+    $('#konggeggg').remove();
+    $('#ztips14').remove();
+    var ztipval = $('.ztips').val();
+    var text9 = $('.text9').val();
+    var text10 = $('.text10').val();
+    if (text9 != '' && text10 != '' && text9 != text10 && text10.length > 6 && text10.length < 20) {
+        $('#tvsetpw').removeClass('land_ico9').addClass('dui');
+        $('#contvpaw').removeClass('dui');
+    }
+    if (ztipval == undefined) {
+        $('.text10').after("<div class='ztips'>请再次输入密码</div>");
+    }
+})
+$('.text10').blur(function () {
+    function CheckStr(str) {
+        var myReg = /^[^@\/\'\\\"#$%&\^\*\s]+$/;
+        if (myReg.test(str))
+            return true;
+        return false;
+    }
+    var text9val = $('.text9').val();
+    var text10val = $('.text10').val();
+    if (text9val != text10val) {
+        $('.ztips').remove();
+        $('.text10').after("<div class='etips'>两次输入的密码不一致，请重新输入</div>");
+
+    } else if (text10val == '') {
+
+        $('.text10').after("<div class='etips'>请先设置密码！</div>");
+    } else if (!CheckStr(text9val) && (text9.length < 6 || text9.length > 20) && (text10.length < 6 || tex10.length > 20)) {
+        $('.app9').append("<div class='etips' id='konggeggg'>只能为英文或者数字或者下划线组成的6-20个字符!</div>");
+        $('#contvpaw').removeClass('dui');
+    } else {
+        $('.etips').remove();
+        $('.ztips').remove();
+        if (text9val != '' && text10val != '' && text9val == text10val && (text9val.length > 6 || text9val.length < 20) && (text10val.length > 6 || text10val.length < 20)) {
+            $('#contvpaw').removeClass('land_ico10').addClass('dui');
+        } else {
+            $('.ztips').remove();
+            $('.text10').after("<div class='etips'>两次输入密码不一致!</div>")
+        }
+
+    }
+});
+
+//勾选按钮
+$("input:checkbox.checkx").click(function () {
+    if ($(this).attr("checked") != '') {
+        $('#aaa').remove();
+    }
+});
+
+
+$("#btn3").click(function () {
+    $('#etipsss').remove();
+    var user_name = $('#mobile_activation').val();
+    if (user_name == '') {
+        $('.app7').append("<div class='etips' id='ztips11'>请输入手机号！</div>");
+    }
+    var sj_code = $('#yz').val();
+    if (sj_code == '') {
+        $('#phone-regName').append("<div class='etips' id='ztips12'>请先获取验证码！</div>");
+    }
+    var password1 = $('.text9').val();
+    if (password1 == '') {
+        $('.text9').append("<div class='etips' id='ztips13'>请输入密码！</div>");
+    }
+    var password = $('#passwordss').val();
+    if (password == '') {
+        $('#item-ifo').append("<div class='etips' id='ztips14'>请确认密码！</div>");
+    }
+
+    if (password != password1) {
+        if ($('.etips').html() != '两次输入的密码不一致，请重新输入') {
+            $('.text10').after("<div class='etips'>两次输入的密码不一致，请重新输入</div>");
+        }
+        return false;
+    }
+
+    var activeuser = $("#activeuser").val();
+    if (activeuser == 1) {
+        $('.app7').append("<div class='etips' id='etipsss' style='width:325px;'>未找到匹配的手机号，请确定是否与来电订购的手机号一致！</div>");
+    } else if (activeuser == 2) {
+        var user_name = $('#activeuser').val();
+        if (user_name) {
+            var str = "<div class='etips' id='etips'>已激活，请使用" + user_name + "<a href='/user.php'>登陆！</a></div>";
+        } else {
+            $('.app7').append("<div class='etips' id='etips'>该手机号已经注册，请直接<a href='/user.php'>登陆！</a></div>");
+        }
+    }
+
+    if ($('#checkx2').prop("checked")) {
+
+    }
+    else {
+        $('#hidden2').after("<div class='etips' id='aaa'>请选择同意用户服务承诺！</div>");
+        return false;
+    }
+    if (user_name == '' || password1 == '' || password == '' || sj_code == '') {
+        return false;
+    }
+    $('#btn3').attr('disabled', "true");//modify 2014-7-1添加disabled属性 by liuguoxing
+    var back_act = $("#back_act").val();
+    $.ajax({
+        type: 'post',
+        url: '/flow/auth/doregist',
+        data: {
+            username : user_name ,
+            verifyCode : sj_code , 
+            password : password , 
+            nameType : "mobile"
+        },
+        dataType: 'json',
+        success: function (date) {
+            if (date) {
+                $('#btn3').removeAttr("disabled");
+            }
+            if (date.code === 0) {
+                                
+                var url = back_act ? back_act : "user.php?act=email_step_2&useremail=" + username;
+                location.href = url;
+            } else if (date.code === -400601) {
+                $('#etips').remove();
+                $('#phone-regName').append("<div class='etips' id='etips'>手机验证码错误</div>");
+            } else {
+                $('.etips').remove();
+                $('.app7').append("<div class='etips' id='etips'>" + data.msg + "</div>");
+                $('.text1').css('border-color', '#eb0007');
+                $('div>.land_ico').removeClass('dui');
+            }
+        }
+    })
+});
+
