@@ -22,32 +22,32 @@ $(function(){
 			   
 			   
 				//获取json中的数据
-				$.get("/static/json/shops.json", function(data){
-					var arr = data;
-					
-					for (var i=0; i<arr.length; i++) {
-						var obj = arr[i]; //每个商品数据
-						
-						//找到id相同的商品后，就可以使用obj了
-						if (obj.id == pid) {
-							loadUI(obj);
-						}
-					}
-				})
-				
-				function loadUI(obj){
-					$(".cc").attr("src", obj.img);
-					$(".img01").attr("src",obj.img1);
-					$(".img02").attr("src",obj.img2);
-					$(".img03").attr("src",obj.img3);
-					$(".img04").attr("src",obj.img4);
-					$("#bigImg").attr("src",obj.img);
-					$(".price").html( obj.price );
-					 
-				
-					
-				
-				}
+				// $.get("/static/json/shops.json", function(data){
+				// 	var arr = data;
+				//
+				// 	for (var i=0; i<arr.length; i++) {
+				// 		var obj = arr[i]; //每个商品数据
+				//
+				// 		//找到id相同的商品后，就可以使用obj了
+				// 		if (obj_id == pid) {
+				// 			loadUI(obj);
+				// 		}
+				// 	}
+				// })
+				//
+				// function loadUI(obj){
+				// 	$(".cc").attr("src", obj.img);
+				// 	$(".img01").attr("src",obj.img1);
+				// 	$(".img02").attr("src",obj.img2);
+				// 	$(".img03").attr("src",obj.img3);
+				// 	$(".img04").attr("src",obj.img4);
+				// 	$("#bigImg").attr("src",obj.img);
+				// 	$(".price").html( obj.price );
+				//
+				//
+				//
+				//
+				// }
 				
 				
 				

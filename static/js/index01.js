@@ -1,14 +1,14 @@
 onload=function(){
 
-        var arr=[];
-		$.get("/static/json/lunbo.json",function(date){
-			    arr=date;
-				for(var i=0 ;i<arr.length;i++){
-					var obj=arr[i];
-				//	console.log(obj)
-				    $("<li><a href='#'><img src="+obj.img+"></a></li>").appendTo("#list1")
-				 //   console.log(obj.img)
-	            }
+		// var arr=[];
+		// $.get("/static/json/lunbo.json",function(date){
+		// 	    arr=date;
+		// 		for(var i=0 ;i<arr.length;i++){
+		// 			var obj=arr[i];
+		// 		//	console.log(obj)
+		// 		    $("<li><a href='#'><img src="+obj.img+"></a></li>").appendTo("#list1")
+		// 		 //   console.log(obj.img)
+	     //        }
 		
 			    $("#list1 li").eq(0).clone(true).appendTo("#list1");
 					var list1 = $("#list1");
@@ -75,29 +75,29 @@ onload=function(){
 					}, 2000);
 				})
 			
-		})			
+		// })
 //       http://127.0.0.1:8020/1710html5二阶段/优品惠/优品惠/json/商品详情.json
         var arr1=[];
-			$.get("/static/json/shops.json",function(date){
-				console.log('11')
-				arr1=date;
-				for(var i=0 ;i<arr1.length;i++){
-				   var obj1=arr1[i];
-	               var li=$("<li></li>").appendTo(".figure-j")
-	               $("<img src="+obj1.img+"><h3>"+obj1.name+"</h3><h4>"+obj1.introduce+"</h4>").appendTo(li)
-	               $("<div class='figure-c-l'><span class='f-left'>"+obj1.price+"</span><span class='f-right'>"+obj1.purchased+"</span></div>").appendTo(li)
-	               
-				}
-			})
+			// $.get("/static/json/shops.json",function(date){
+			// 	console.log('11')
+			// 	arr1=date;
+			// 	for(var i=0 ;i<arr1.length;i++){
+			// 	   var obj1=arr1[i];
+	         //       var li=$("<li></li>").appendTo(".figure-j")
+	         //       $("<img src="+obj1.img+"><h3>"+obj1.name+"</h3><h4>"+obj1.introduce+"</h4>").appendTo(li)
+	         //       $("<div class='figure-c-l'><span class='f-left'>"+obj1.price+"</span><span class='f-right'>"+obj1.purchased+"</span></div>").appendTo(li)
+	         //
+			// 	}
+			// })
 	        
 	        $(".figure-j").on("click", "li", function(){
 					//console.log("click");
-					var index = $(this).index(); 
-					var obj1 = arr1[index];
-					//console.log(obj.id);
+					var obj_id = $(this).index();
+					// var obj_id = arr1[index];
+					// console.log(obj1.id);
 					
 					//进入详情页， 且将当前点击的商品的id传入
-					location.href = "shop.html?id=" + obj1.id;
+					location.href = "/App/shop/"  ;
 
 			})
 				

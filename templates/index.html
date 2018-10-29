@@ -129,6 +129,13 @@
 </div>
 <div id="banner">
 	<ul id="list1">
+		{% for wheel in wheels %}
+			<li>
+				<a href="#">
+					<img src="{{ wheel.img }}" alt="">
+				</a>
+			</li>
+		{% endfor %}
 		<!--<li><a href="#"><img src="/static/image/banner01.jpg"/></a></li>
         <li><a href="#"><img src="/static/image/banner02.png"/></a></li>-->
 	</ul>
@@ -256,6 +263,25 @@
 	<h2><i>全球</i>尖货</h2>
 	<p>每周一 周三 周五 10:00上新</p>
 	<ul class="figure-j">
+		{% for shop in shops %}
+			<li>
+				<img src="{{ shop.img }}" alt="">
+				<h3>
+					{{ shop.name }}
+				</h3>
+				<h4>
+					{{ shop.introduce }}
+				</h4>
+				<div class="figure-c-l">
+					<span class="f-left">
+						{{ shop.price }}
+					</span>
+					<span class="f-right">
+						{{ shop.purchased }}
+					</span>
+				</div>
+			</li>
+		{% endfor %}
 
 	</ul>
 

@@ -43,9 +43,11 @@
 			{% csrf_token %}
 			<div class="aa">
 				<div><span>手机号码：</span></div>
-				<input type="text" name="phone"/>
+				<input type="text" name="phone" id="phone"/>
 				<div class="dd">请输入常用手机号，避免忘记</div>
-				<i class="iconfont">&#xe621;</i></div>
+				<i class="iconfont">&#xe621;</i>
+				<span id="err" style="color: red"></span>
+			</div>
 
 			<div class="ab">
 				<div><span>验证码：</span></div>

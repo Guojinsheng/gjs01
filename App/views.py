@@ -1,23 +1,33 @@
+import hashlib
 import uuid
 
 from django.contrib.auth import logout
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from App.models import User
+from App.models import User, Wheel, Shop
 
 
 def index(request):
 	token = request.session.get('token')
 	if token:
-		user = User.objects.get(token=token)
+		user = User.objects.filter(token=token).first()
+
 	else:
+
 		user = None
+
+
+	wheels = Wheel.objects.all()
+
+	shops = Shop.objects.all()
 
 
 	data = {
 		'user':user,
+		'wheels': wheels,
+		'shops': shops,
 	}
 	return render(request,'index.html',context=data)
 
@@ -30,16 +40,31 @@ def register(request):
 		password = request.POST.get('password')
 		password_ck = request.POST.get('password_ck')
 
-		user = User()
-		user.phone = phone
-		user.password = password
-		user.password_ck = password_ck
-		user.token = str(uuid.uuid5(uuid.uuid4(), 'register'))
-		request.session['token'] = user.token
+		print(1)
 
-		user.save()
+		try:
+			user = User()
+			user.phone = phone
 
-		return redirect('app:index')
+			user.password = generate_password(password)
+
+			user.password_ck = generate_password(password_ck)
+
+			user.token = str(uuid.uuid5(uuid.uuid4(), 'register'))
+
+			request.session['token'] = user.token
+
+			user.save()
+
+			print(user.password)
+			print(user.password_ck)
+
+			return redirect('app:index')
+
+		except:
+			print(2)
+			return HttpResponse('手机号已被注册')
+
 
 
 
@@ -53,7 +78,7 @@ def login(request):
 	elif request.method == 'POST':
 
 		phone = request.POST.get('phone')
-		password = request.POST.get('password')
+		password = generate_password(request.POST.get('password'))
 
 		users = User.objects.filter(phone = phone,password=password)
 		if users.exists():
@@ -78,8 +103,15 @@ def quit(request):
 
 	return redirect('app:index')
 
+def generate_password(password):
+	md5 = hashlib.md5()
+	md5.update(password.encode('utf-8'))
+	return md5.hexdigest()
 
-
+def generate_password(password_ck):
+	md5 = hashlib.md5()
+	md5.update(password_ck.encode('utf-8'))
+	return md5.hexdigest()
 
 def cart(request):
 	return render(request,'cart.html')

@@ -1,7 +1,7 @@
 $(function () {
 
 	$('#register').attr('disabled', 'disabled')
-	var a, b, c, d = 0
+	var a, b, c, d  = 0
 	$(".aa").find("input").click(function () {
 
 		$(".aa .dd").css("display", "block")
@@ -35,8 +35,7 @@ $(function () {
 		$(".ab").find("input").keyup(function () {
 
 			var str = $(this).val();
-			console.log(str)
-			console.log(str1)
+
 
 
 			if (str == str1) {
@@ -62,7 +61,7 @@ $(function () {
 	$(".ac").find("input").keyup(function () {
 
 		var str = $(".ac").find("input").val();
-		var reg = /^\w{6,20}$/;
+		var reg = /^\w{6,257}$/;
 
 		if (reg.test(str)) {
 			$(".ac .iconfont").css("display", "block")
@@ -86,6 +85,10 @@ $(function () {
 		var str = $(".ad").find("input").val();
 		var str1 = $(".ac").find("input").val();
 
+
+		console.log(str)
+		console.log(str1)
+
 		if (str == str1) {
 			$(".ad .iconfont").css("display", "block")
 			$(".ad .dd").css("display", "none")
@@ -100,7 +103,12 @@ $(function () {
 	})
 
 
+
 	$('#register').mouseenter(function () {
+		console.log(a)
+		console.log(b)
+		console.log(c)
+		console.log(d)
 
 		if (a * b * c * d) {
 			$('#register').removeAttr('disabled')
