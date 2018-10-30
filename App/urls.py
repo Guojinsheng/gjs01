@@ -10,5 +10,5 @@ urlpatterns = [
 	url(r'^login/$',views.login,name='login'),
 	url(r'^quit/$',views.quit,name='quit'),
 	url(r'^cart/$',views.cart,name='cart'),
-	url(r'^shop/$',views.shop,name='shop'),
+	url(r'^shop/(\d+)/$',views.shop,name='shop'),
 ]

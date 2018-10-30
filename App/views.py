@@ -117,6 +117,9 @@ def cart(request):
 	return render(request,'cart.html')
 
 
-def shop(request):
-	return render(request,'shop.html')
+def shop(request,page):
+
+	shop = Shop.objects.all()[int(page)-1]
+
+	return render(request,'shop.html',context={'shop':shop})
 

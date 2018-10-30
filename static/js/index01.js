@@ -90,16 +90,16 @@ onload=function(){
 			// 	}
 			// })
 	        
-	        $(".figure-j").on("click", "li", function(){
-					//console.log("click");
-					var obj_id = $(this).index();
-					// var obj_id = arr1[index];
-					// console.log(obj1.id);
-					
-					//进入详情页， 且将当前点击的商品的id传入
-					location.href = "/App/shop/"  ;
-
-			})
+			// $(".figure-j").on("click", "li", function(){
+			// 		//console.log("click");
+			// 		var obj_id = $(this).index();
+			// 		// var obj_id = arr1[index];
+			// 		// console.log(obj1.id);
+			//
+			// 		//进入详情页， 且将当前点击的商品的id传入
+			// 		location.href = "/App/shop/(\d+)/"  ;
+			//
+			// })
 				
 	
 				

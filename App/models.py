@@ -10,10 +10,16 @@ class User(models.Model):
 	password_ck = models.CharField(max_length=256)
 	token = models.CharField(max_length=256)
 
+	def __str__(self):
+		return self.phone
+
 
 class Wheel(models.Model):
 	id = models.IntegerField(primary_key=True)
 	img = models.CharField(max_length=100)
+
+
+
 
 
 class Shop(models.Model):

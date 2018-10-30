@@ -122,8 +122,8 @@
 		href="#">海鲜水产</a><span>晓芹 海参超值抢购组 7袋70头</span>
 </div>
 <div class="main">
-	{% for shop in shops %}
-		{% if shop.id == obj_id %}
+{#	{% for item in shop %}#}
+{#		{% if item.id == int(page) %}#}
 			<div class="main-l">
 				<div id="smallImg">
 					<img src="{{ shop.img }}" class="cc"/>
@@ -134,7 +134,7 @@
 				</div>
 				<ul id="list">
 					<li>
-						<img src="{{ shop.img1 }}" class="img01"/>
+						<img src="{{ shop.img1 }}" class="img01" id="img1"/>
 					</li>
 					<li>
 						<img src="{{ shop.img2 }}" class="img02"/>
@@ -174,8 +174,8 @@
 				<i class="iconfont">&#xe607;&nbsp;&nbsp;&nbsp;</i>tv商品
 			</div>
 			</div>
-		{% endif %}
-	{% endfor %}
+{#		{% endif %}#}
+{#	{% endfor %}#}
 <div class="footer">
 	<div class="footer-t">
 		<img src="/static/image/footer_ad (1).jpg"/>

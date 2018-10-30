@@ -22,40 +22,40 @@ $(function(){
 			   
 			   
 				//获取json中的数据
-				// $.get("/static/json/shops.json", function(data){
-				// 	var arr = data;
-				//
-				// 	for (var i=0; i<arr.length; i++) {
-				// 		var obj = arr[i]; //每个商品数据
-				//
-				// 		//找到id相同的商品后，就可以使用obj了
-				// 		if (obj_id == pid) {
-				// 			loadUI(obj);
-				// 		}
-				// 	}
-				// })
-				//
-				// function loadUI(obj){
-				// 	$(".cc").attr("src", obj.img);
-				// 	$(".img01").attr("src",obj.img1);
-				// 	$(".img02").attr("src",obj.img2);
-				// 	$(".img03").attr("src",obj.img3);
-				// 	$(".img04").attr("src",obj.img4);
-				// 	$("#bigImg").attr("src",obj.img);
-				// 	$(".price").html( obj.price );
-				//
-				//
-				//
-				//
-				// }
+				$.get("/static/json/shops.json", function(data){
+					var arr = data;
+
+					for (var i=0; i<arr.length; i++) {
+						var obj = arr[i]; //每个商品数据
+
+						//找到id相同的商品后，就可以使用obj了
+						if (obj_id == pid) {
+							loadUI(obj);
+						}
+					}
+				})
+
+				function loadUI(obj){
+					$(".cc").attr("src", obj.img);
+					$(".img01").attr("src",obj.img1);
+					$(".img02").attr("src",obj.img2);
+					$(".img03").attr("src",obj.img3);
+					$(".img04").attr("src",obj.img4);
+					$("#bigImg").attr("src",obj.img);
+					$(".price").html( obj.price );
+
+
+
+
+				}
 				
 				
-				
+				//
 				//查找参数对应的值
 				function getParams(str, name){
 					var arr = str.split("&");
 					for (var i=0; i<arr.length; i++) {
-						var str1 = arr[i]; // id=1002 
+						var str1 = arr[i]; // id=1002
 						var arr1 = str1.split("=");
 						if (arr1[0] == name) {
 							return arr1[1];
@@ -63,8 +63,8 @@ $(function(){
 					}
 					return "";
 				}
-				
-	
+
+
 				
 			
 				
@@ -75,9 +75,11 @@ $(function(){
 				
 				//放大系数
 				var scale = $("#bigImg").width() / $("#smallImg").width();
-				
+
+
 				//在小图中移动
-				$("#smallImg").mousemove(function(e){
+				 $("#smallImg").mousemove(function(e){
+				 	$("#img1").trigger("click")
 					$("#smallArea").show(); //显示小区域
 					$("#bigArea").show(); //显示大区域
 					
