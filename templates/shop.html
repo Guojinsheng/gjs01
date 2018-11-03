@@ -5,7 +5,7 @@
 	<title>商品详情</title>
 	<script src="/static/js/jquery-1.12.3.js"></script>
 	<script src="/static/js/jquery.cookie.js"></script>
-	<script src="/static/jquery.fly.min.js"></script>
+	<script src="/static/js/jquery.fly.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="/static/css/reset.css">
 	<link rel="stylesheet" type="text/css" href="/static/css/style.1.0.3.css">
 	<script src="/static/js/index04.js"></script>
@@ -126,7 +126,7 @@
 {#		{% if item.id == int(page) %}#}
 			<div class="main-l">
 				<div id="smallImg">
-					<img src="{{ shop.img }}" class="cc"/>
+					<img src="{{ shop.img }}" class="cc" id="img"/>
 					<div id="smallArea"></div>
 				</div>
 				<div id="bigArea">
@@ -153,7 +153,7 @@
 				<p>晓芹</p>
 				<h2>晓芹 海参超值抢购组 7袋70头</h2>
 				<div class="main-r-t">
-					<div class="dd"><span>价格 {{ shop.price }}</span><span class="price"></span></div>
+					<div class="dd"> <span>价格</span> <span id="price">{{ shop.price }}</span><span class="price"></span></div>
 					<br/>
 					<span class="bb"><h6>优惠</h6><i>立减</i><h5>TV商品下单立减10元</h5></span><br/>
 					<h3><i>包邮</i><span>订单金额满168元包邮</span></h3>
@@ -167,10 +167,10 @@
 				<option>成都</option>
 			</select><br/>
 				数量
-				<button>-</button>
-				<input type="text"/>
-				<button>+</button>
-				<h4><i class="iconfont">&#xe602;</i>加入购物车</h4>
+				<button class="mius">-</button>
+				<input type="text" id="number" value="0"/>
+				<button class="plus">+</button>
+				<h4><a href="{% url 'app:cart' %}"><i class="iconfont">&#xe602;</i>加入购物车</a></h4>
 				<i class="iconfont">&#xe607;&nbsp;&nbsp;&nbsp;</i>tv商品
 			</div>
 			</div>

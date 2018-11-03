@@ -6,7 +6,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from App.models import User, Wheel, Shop
+from App.models import User, Wheel, Shop, Cart
 
 
 def index(request):
@@ -94,7 +94,7 @@ def login(request):
 
 			return redirect('app:index')
 		else:
-			return HttpResponse('用户名或密码错误')
+			return render(request,'login.html',context={'error':'用户名或密码错误'})
 
 
 def quit(request):
@@ -114,7 +114,24 @@ def generate_password(password_ck):
 	return md5.hexdigest()
 
 def cart(request):
-	return render(request,'cart.html')
+
+	shop_img = request.COOKIES.get('img')
+	shop_price = request.COOKIES.get('price')
+	shop_num = request.COOKIES.get('number')
+
+	print(shop_img)
+	print(shop_price)
+	print(shop_num)
+
+	shop_img = shop_img.replace('%2F','/')
+
+	data = {
+		'shop_img':shop_img,
+		'shop_price':shop_price,
+		'shop_num':shop_num,
+	}
+
+	return render(request,'cart.html',context=data)
 
 
 def shop(request,page):
@@ -123,3 +140,85 @@ def shop(request,page):
 
 	return render(request,'shop.html',context={'shop':shop})
 
+
+def addtocart(request):
+	shop_id = request.GET.get('shop.id')
+	token = request.session.get('token')
+
+	responseData = {
+		'msg':'',
+		'status':'',
+	}
+	if token:
+		user = User.objects.get(token = token)
+
+		shops = Shop.objects.get(id = shop_id)
+
+		carts = Cart.objects.filter(shop = shop).filter(user = user)
+
+
+		print('能进来')
+		if carts.exists():
+			print(1)
+			cart = carts.first()
+
+			cart.number = cart.number + 1
+
+			cart.save()
+
+			responseData['msg'] = '添加购物车完成'
+			responseData['status'] = 1
+			responseData['number'] = cart.number
+
+			return JsonResponse(responseData)
+		else:
+			print(2)
+			cart = Cart()
+			cart.user = user
+			cart.shop = shops
+			cart.number = 1
+			cart.save()
+
+			responseData['msg'] = '添加购物车完成'
+			responseData['status'] = 1
+			responseData['number'] = cart.number
+
+			return JsonResponse(responseData)
+
+	else:
+
+		responseData['msg'] = '请登录之后再操作'
+		responseData['status'] = -1
+
+		return JsonResponse(responseData)
+
+
+def subtocart(request):
+	token = request.session.get('token')
+	user = User.objects.get(token = token)
+
+	shop_id = request.GET.get('shop_id')
+
+	shops = Shop.objects.get(id = shop_id)
+
+
+	carts = Cart.objects.filter(user=user).filter(shops = shops)
+	cart = carts.first()
+	cart.number = cart.number - 1
+	cart.save()
+
+	responseData = {
+		'msg':'删减成功',
+		'status':'1',
+		'number':cart.number,
+	}
+	return JsonResponse(responseData)
+
+
+
+
+
+
+
+
+	pass

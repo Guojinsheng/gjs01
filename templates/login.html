@@ -35,22 +35,28 @@
 	<div class="main">
 		<img src="/static/image/logEWM.gif"/>
 		<div class="main-l">
+			{% if error %}
+				<div class="error">
+					{{ error }}
+				</div>
+			{% endif %}
 			<form action="{% url 'app:login' %}" method="post">
 				{% csrf_token %}
 				<div class="aa">
 					<div><span>手机号码:</span></div>
-					<input type="text" name="phone"/>
+					<input type="text" name="phone" id="phone"/>
 					<div class="dd">请输入常用手机号，避免忘记</div>
 					<i class="iconfont">&#xe621;</i></div>
 				<div class="aa">
 					<div><span>密码：</span></div>
-					<input type="password" name="password"/>
+					<input type="password" name="password" id="password"/>
 					<div class="dd">6-20位字符，可使用数字，字母，或符号的组合</div>
 					<i class="iconfont">&#xe621;</i></div>
 				<br/>
-				<input type="checkbox" class="ckbox"/>记住用户名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
-					href="#">忘记密码?</a><br/>
+				<input type="checkbox" class="ckbox"/>记住用户名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="#">忘记密码?</a><br/>
 				<button type="submit" id="login">登录</button>
+
 			</form>
 		</div>
 		<div class="cc">

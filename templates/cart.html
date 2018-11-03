@@ -76,15 +76,22 @@
 					<li>小计（元）</li>
 					<li>操作</li>
 				</ul>
-				<!--<ul class="main-b">-->
-					<!--<li><input type="checkbox"/>全选</li>-->
-					<!--<li><img src=""/></li>-->
-					<!--<li><span class="price"></span></li>-->
-					<!--<li><button>-</button><input type="text" /><button>+</button></li>-->
-					<!--<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="price"></span></li>
-					<li><i class="iconfont">&#xe60d;</i></li>-->
-					
-				<!--</ul>-->
+
+				<ul class="main-b">
+					<li><input type="checkbox"/>全选</li>
+					<li><img src="{{ shop_img }}" id="img"/></li>
+					<li><span class="price">{{ shop_price }}</span></li>
+					<li><button>-</button><input type="text" value="{{ shop_num }}" id="number"/><button>+</button></li>
+					<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="price"></span></li>
+					<li><a href="{% url 'app:cart' %}"><i class="iconfont" id="del">&#xe60d;</i></a></li>
+				</ul>
+
+
+				{% if shop_img %}
+					<p> </p>
+				{% else %}
+					<p style="color: red;font-size: 20px;text-align: center"> 还没有商品加入购物车，请先购物！ </p>
+				{% endif %}
 				<div class="main-b-b"><i class="iconfont">&#xe651;</i>【赠品】积分赠送[2.98]*1</div>
 			</div>
 			<div class="main-c">

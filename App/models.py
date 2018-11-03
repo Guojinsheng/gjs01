@@ -36,3 +36,14 @@ class Shop(models.Model):
 
 
 
+class Cart(models.Model):
+	# 用户
+	user = models.ForeignKey(User)
+	# 商品
+	shop = models.ForeignKey(Shop)
+	# 选择数量
+	number = models.IntegerField(default=1)
+	# 是否选中
+	isselect = models.BooleanField(default=True)
+
+

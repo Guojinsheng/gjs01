@@ -38,13 +38,14 @@
 	float: right;margin-top:70px;
 }
 .main{
-	width: 1423px;margin:0 auto;position: relative;
+	width: 1423px;margin:0 auto; position: relative;
 }
 .main img{
 	float: left;margin-left: 70px;
 }
 .main .main-l{
-	float: left;width:996px;border: 2px solid #FFA500;height:400px;margin-left: 20px;
+	float: left;width:996px;border: 2px solid #FFA500; height:400px; margin-left: 20px;
+	position: relative;
 }
 .main .main-l .aa{
 	width:100%;height: 30px;margin-left: 25px;margin-top:55px ;position: relative;
@@ -75,6 +76,21 @@
 .main .main-l .aa a {
 	margin-top:10px ;display: block;float: left;color: #0000FF;
 }
+.main .main-l .error{
+	color: red;
+	font-size: 20px;
+	text-align: center;
+	line-height: 80px;
+	width: 250px;
+	height: 80px;
+	background-color: white;
+	border: 1px black solid;
+	border-radius :10px ;
+	position: absolute;
+	top: 20%;
+	left: 40%;
+	z-index: 100;
+}
 .main .cc{
 	background:#FFA500;width:200px;height:50px;position: absolute;text-align: center;line-height: 40px;
 	left:214px;top:-49px;color: #fff;font-size: 16px;
@@ -82,6 +98,8 @@
 .main button{
 	width:330px;height: 30px;background:#FF3333;border: none;margin:20px 0 0 175px ;
 }
+
+
 .footer{
 	width:1423px;margin:0 auto;
 }

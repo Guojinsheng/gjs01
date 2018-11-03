@@ -1,5 +1,7 @@
 $(function () {
 
+	clickab()
+
 	$('#register').attr('disabled', 'disabled')
 	var a, b, c, d  = 0
 	$(".aa").find("input").click(function () {
@@ -26,19 +28,42 @@ $(function () {
 		}
 	})
 
+	$('.ab').find('a').click(function () {
+		clickab()
+	})
+
+
+
+
 
 	$(".ab").find("b").click(function () {
+				clickab()
 
-		$(".ab").find("b").html(parseInt(Math.random() * 10) + "" + parseInt(Math.random() * 10) + "" + parseInt(Math.random() * 10) + "" + parseInt(Math.random() * 10))
+	})
+
+
+
+	function clickab() {
+
+		var code = '0123456789QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm'
+
+		$(".ab").find("b").html(code[parseInt(Math.random() * code.length)] + "" + code[parseInt(Math.random() * code.length)] + "" + code[parseInt(Math.random() * code.length)] + "" +code[parseInt(Math.random() * code.length)])
 		var str1 = $(".ab").find("b").html();
 
 		$(".ab").find("input").keyup(function () {
-
-			var str = $(this).val();
-
+			var str2 = $(this).val()
 
 
-			if (str == str1) {
+
+			var str3 = str1.toLowerCase()
+			var str4 = str2.toLowerCase()
+
+
+			// var str3 = str4;
+
+
+
+			if (str3 == str4) {
 
 				$(".ab .iconfont").css("display", "block")
 				$(".ab .dd").css("display", "none")
@@ -51,7 +76,7 @@ $(function () {
 				b = 0
 			}
 		})
-	})
+	}
 
 	$(".ac").find("input").click(function () {
 
