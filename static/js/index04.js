@@ -118,17 +118,19 @@ $(function () {
 
 	})
 
-	var number = 0
 	$('.plus').click(function () {
+		var number = $('#number').val()
 		number++
 		console.log(number)
 		$('#number').val(number)
 	})
-	var i = $('#number').val()
-	console.log(i)
+
+
 	$('.mius').click(function () {
-		i--
-		if (i <= 0){
+		var i = $('#number').val()
+
+		i = i - 1
+		if (i <= 0) {
 			i = 0
 
 		} else {
@@ -162,102 +164,102 @@ $(function () {
 		var price = $('#price').html()
 		var number = $('#number').val()
 		// $.cookie('cart',[img,price,number],{exprires:600,path:'/'})
-		$.cookie('img',img,{exprires:600,path:'/'})
-		$.cookie('price',price,{exprires:600,path:'/'})
-		$.cookie('number',number,{exprires:600,path:'/'})
+		$.cookie('img', img, {exprires: 600, path: '/'})
+		$.cookie('price', price, {exprires: 600, path: '/'})
+		$.cookie('number', number, {exprires: 600, path: '/'})
 		console.log(img)
 
 	})
 
 
-$(".bar-t li").eq(0).mouseenter(function () {
-	$(".sidebar-a").css("display", "block")
-})
-$(".bar-t li").eq(0).mouseleave(function () {
-	$(".sidebar-a").css("display", "none")
-})
+	$(".bar-t li").eq(0).mouseenter(function () {
+		$(".sidebar-a").css("display", "block")
+	})
+	$(".bar-t li").eq(0).mouseleave(function () {
+		$(".sidebar-a").css("display", "none")
+	})
 
-$(".bar-t li").eq(1).mouseenter(function () {
-	$(".gwc").css("display", "block")
-})
-$(".bar-t li").eq(1).mouseleave(function () {
-	$(".gwc").css("display", "none")
-})
+	$(".bar-t li").eq(1).mouseenter(function () {
+		$(".gwc").css("display", "block")
+	})
+	$(".bar-t li").eq(1).mouseleave(function () {
+		$(".gwc").css("display", "none")
+	})
 
-$(".bar-t li").eq(2).mouseenter(function () {
-	$(".wdgz").css("display", "block")
-})
-$(".bar-t li").eq(2).mouseleave(function () {
-	$(".wdgz").css("display", "none")
-})
+	$(".bar-t li").eq(2).mouseenter(function () {
+		$(".wdgz").css("display", "block")
+	})
+	$(".bar-t li").eq(2).mouseleave(function () {
+		$(".wdgz").css("display", "none")
+	})
 
-$(".bar-t li").eq(3).mouseenter(function () {
-	$(".zxkf").css("display", "block")
-})
-$(".bar-t li").eq(3).mouseleave(function () {
-	$(".zxkf").css("display", "none")
-})
+	$(".bar-t li").eq(3).mouseenter(function () {
+		$(".zxkf").css("display", "block")
+	})
+	$(".bar-t li").eq(3).mouseleave(function () {
+		$(".zxkf").css("display", "none")
+	})
 
-$(".bar-b li").eq(0).mouseenter(function () {
-	$(".ewm").css("display", "block")
-})
-$(".bar-b li").eq(0).mouseleave(function () {
-	$(".ewm").css("display", "none")
-})
+	$(".bar-b li").eq(0).mouseenter(function () {
+		$(".ewm").css("display", "block")
+	})
+	$(".bar-b li").eq(0).mouseleave(function () {
+		$(".ewm").css("display", "none")
+	})
 
-$(".bar-b li").eq(1).mouseenter(function () {
-	$(".dcwj").css("display", "block")
-})
-$(".bar-b li").eq(1).mouseleave(function () {
-	$(".dcwj").css("display", "none")
-})
+	$(".bar-b li").eq(1).mouseenter(function () {
+		$(".dcwj").css("display", "block")
+	})
+	$(".bar-b li").eq(1).mouseleave(function () {
+		$(".dcwj").css("display", "none")
+	})
 
-$(".bar-b li").eq(2).mouseenter(function () {
-	$(".fhdb").css("display", "block")
-})
-$(".bar-b li").eq(2).mouseleave(function () {
-	$(".fhdb").css("display", "none")
-})
+	$(".bar-b li").eq(2).mouseenter(function () {
+		$(".fhdb").css("display", "block")
+	})
+	$(".bar-b li").eq(2).mouseleave(function () {
+		$(".fhdb").css("display", "none")
+	})
 
-$(".bar-b p").eq(1).click(function () {
-	var speed = 150;//滑动的速度
-	$('body,html').animate({scrollTop: 0}, speed);
-	return false;
-})
-$(".bar-b i").eq(2).click(function () {
-	var speed = 150;//滑动的速度
-	$('body,html').animate({scrollTop: 0}, speed);
-	return false;
-})
+	$(".bar-b p").eq(1).click(function () {
+		var speed = 150;//滑动的速度
+		$('body,html').animate({scrollTop: 0}, speed);
+		return false;
+	})
+	$(".bar-b i").eq(2).click(function () {
+		var speed = 150;//滑动的速度
+		$('body,html').animate({scrollTop: 0}, speed);
+		return false;
+	})
 
 
-var offset = $("#end").offset();  //结束的地方的元素
-$(".main-r").find("h4").click(function (event) {   //是$(".addcar")这个元素点击促发的 开始动画的位置就是这个元素的位置为起点
-	var addcar = $(this);
-	var img = addcar.parent().parent().find("#bigImg").attr('src');
+	var offset = $("#end").offset();  //结束的地方的元素
+	$(".main-r").find("h4").click(function (event) {   //是$(".addcar")这个元素点击促发的 开始动画的位置就是这个元素的位置为起点
+		var addcar = $(this);
+		var img = addcar.parent().parent().find("#bigImg").attr('src');
 
-	console.log(addcar.parent().parent().find("#bigImg").attr('src'))
-	var flyer = $('<img class="u-flyer" src="' + img + '">');
-	flyer.fly({
-		//开始位置
-		start: {
-			left: event.clientX,
-			top: event.clientY
-		},
-		//结束位置
-		end: {
-			left: offset.left,
-			top: offset.top,
-			width: 0,
-			height: 0
-		},
-		//结束后
-		onEnd: function () {
-			console.log("结束");
-			$("#msg").show().animate({width: '250px'}, 200).fadeOut(1000);
-			flyer.remove();
-		}
+		console.log(addcar.parent().parent().find("#bigImg").attr('src'))
+		var flyer = $('<img class="u-flyer" src="' + img + '">');
+		flyer.fly({
+			//开始位置
+			start: {
+				left: event.clientX,
+				top: event.clientY
+			},
+			//结束位置
+			end: {
+				left: offset.left,
+				top: offset.top,
+				width: 0,
+				height: 0
+			},
+			//结束后
+			onEnd: function () {
+				console.log("结束");
+				$("#msg").show().animate({width: '250px'}, 200).fadeOut(1000);
+				flyer.remove();
+			}
+		});
 	});
-});
 
 })
