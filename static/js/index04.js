@@ -139,6 +139,8 @@ $(function () {
 		}
 		$('#number').val(i)
 	})
+	var id = $('#id').html()
+	$.cookie('id',parseInt(id),{exprires:600,path:'/'})
 
 	// shopimg = $.cookie('shop.img')
 	// shopprice = $.cookie('shop.price')
@@ -159,7 +161,10 @@ $(function () {
 	//
 	// })
 
-	$('.main-r').find('h4').click(function () {
+
+	$('.main-r h4').click(function () {
+		window.location.reload()
+
 		var img = $('#list .img01').attr('src')
 		var price = $('#price').html()
 		var number = $('#number').val()
@@ -261,5 +266,7 @@ $(function () {
 			}
 		});
 	});
+
+
 
 })

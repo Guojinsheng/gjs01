@@ -114,6 +114,13 @@ def generate_password(password_ck):
 	return md5.hexdigest()
 
 def cart(request):
+	token = request.session.get('token')
+	if token:
+		user = User.objects.filter(token=token).first()
+
+	else:
+
+		user = None
 
 	shop_img = request.COOKIES.get('img')
 	shop_price = request.COOKIES.get('price')
@@ -126,6 +133,7 @@ def cart(request):
 	shop_img = shop_img.replace('%2F','/')
 
 	data = {
+		'user':user,
 		'shop_img':shop_img,
 		'shop_price':shop_price,
 		'shop_num':shop_num,
@@ -136,89 +144,23 @@ def cart(request):
 
 def shop(request,page):
 
-	shop = Shop.objects.all()[int(page)-1]
-
-	return render(request,'shop.html',context={'shop':shop})
 
 
-def addtocart(request):
-	shop_id = request.GET.get('shop.id')
+
+
+
 	token = request.session.get('token')
-
-	responseData = {
-		'msg':'',
-		'status':'',
-	}
 	if token:
-		user = User.objects.get(token = token)
-
-		shops = Shop.objects.get(id = shop_id)
-
-		carts = Cart.objects.filter(shop = shop).filter(user = user)
-
-
-		print('能进来')
-		if carts.exists():
-			print(1)
-			cart = carts.first()
-
-			cart.number = cart.number + 1
-
-			cart.save()
-
-			responseData['msg'] = '添加购物车完成'
-			responseData['status'] = 1
-			responseData['number'] = cart.number
-
-			return JsonResponse(responseData)
-		else:
-			print(2)
-			cart = Cart()
-			cart.user = user
-			cart.shop = shops
-			cart.number = 1
-			cart.save()
-
-			responseData['msg'] = '添加购物车完成'
-			responseData['status'] = 1
-			responseData['number'] = cart.number
-
-			return JsonResponse(responseData)
+		user = User.objects.filter(token=token).first()
 
 	else:
 
-		responseData['msg'] = '请登录之后再操作'
-		responseData['status'] = -1
+		user = None
 
-		return JsonResponse(responseData)
-
-
-def subtocart(request):
 	token = request.session.get('token')
-	user = User.objects.get(token = token)
 
-	shop_id = request.GET.get('shop_id')
+	shop = Shop.objects.all()[int(page)-1]
 
-	shops = Shop.objects.get(id = shop_id)
-
-
-	carts = Cart.objects.filter(user=user).filter(shops = shops)
-	cart = carts.first()
-	cart.number = cart.number - 1
-	cart.save()
-
-	responseData = {
-		'msg':'删减成功',
-		'status':'1',
-		'number':cart.number,
-	}
-	return JsonResponse(responseData)
+	return render(request,'shop.html',context={'shop':shop,'token':token,'user':user})
 
 
-
-
-
-
-
-
-	pass

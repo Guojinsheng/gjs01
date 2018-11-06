@@ -27,8 +27,18 @@
 
 
 		<ul class="top-nav">
-			<li><span><a href="{% url 'app:register' %}">注册</a></span>|</li>
-			<li><span><a href="{% url 'app:login' %}">登录</a></span>|</li>
+			{% if user %}
+				<li>
+					<span><a href="#">{{ user.phone }}</a></span>|
+
+				</li>
+				<li>
+					<span><a href="{% url 'app:quit' %}">退出</a></span>|
+				</li>
+			{% else %}
+				<li><span><a href="{% url 'app:register' %}">注册</a></span>|</li>
+				<li><span><a href="{% url 'app:login' %}">登录</a></span>|</li>
+			{% endif %}
 			<li><span><a href="#">我的订单</a></span>|</li>
 			<li><span><a href="#">我的关注</a></span>|</li>
 			<li><span><a href="#">资讯</a></span>|</li>
@@ -51,7 +61,7 @@
 	</div>
 	<div class="header-r">
 		<a href="#"><img src="/static/image/gwc.png"/></a>
-		<span><a href="购物车.html">我的购物车</a></span>
+		<span><a href="{% url 'app:cart' %}">我的购物车</a></span>
 		<a href="#"><i class="iconfont">&#xe601;</i></a>
 		<p>0</p>
 	</div>
@@ -124,6 +134,7 @@
 <div class="main">
 {#	{% for item in shop %}#}
 {#		{% if item.id == int(page) %}#}
+<span style="z-index: 0" id="id" >{{ shop.id }}</span>
 			<div class="main-l">
 				<div id="smallImg">
 					<img src="{{ shop.img }}" class="cc" id="img"/>
@@ -170,7 +181,12 @@
 				<button class="mius">-</button>
 				<input type="text" id="number" value="0"/>
 				<button class="plus">+</button>
-				<h4><a href="{% url 'app:cart' %}"><i class="iconfont">&#xe602;</i>加入购物车</a></h4>
+
+				{% if token %}
+					<h4><a href="{% url 'app:cart' %}"><i class="iconfont">&#xe602;</i>加入购物车</a></h4>
+					{% else %}
+					<h4><a href="{% url 'app:login' %}"><i class="iconfont">&#xe602;</i>加入购物车</a></h4>
+				{% endif %}
 				<i class="iconfont">&#xe607;&nbsp;&nbsp;&nbsp;</i>tv商品
 			</div>
 			</div>

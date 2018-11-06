@@ -1,6 +1,46 @@
 $(function () {
 
 
+	$('.main-b inout').removeAttr('checked')
+
+	$('#checkbox').click(function () {
+		// window.location.reload()
+		$(this).attr('checked','checked')
+				click1()
+
+	})
+
+	if ($('#checkbox').is(':checked')) {
+		click1()
+	} else {
+		var i = 0
+		$('#total').html(parseInt(i))
+	}
+
+
+
+	$('#allSelect').click(function () {
+		console.log('allSelect')
+		$('#allSelect').attr('checked','checked')
+		$('#allSelect1').attr('checked','checked')
+		$('#checkbox').attr('checked','checked')
+		click1()
+	})
+	$('#allSelect1').click(function () {
+		console.log('allSelect')
+		$('#allSelect').attr('checked','checked')
+		$('#allSelect1').attr('checked','checked')
+		$('#checkbox').attr('checked','checked')
+		click1()
+	})
+
+	$('#checkbox').dblclick(function () {
+		if ($('#checkbox').is(':checked')) {
+		click1()
+	} else {
+		$('#allSelect').removeAttr('checked')
+	}
+	})
 
 	$('#del').click(function () {
 		console.log(1)
@@ -23,6 +63,106 @@ $(function () {
 		$('.main-b').remove()
 
 	}
+
+
+	$('#mius').click(function () {
+		console.log('mius')
+		var number = $('#number').val()
+
+		number = number - 1
+		if (number <= 0) {
+			var img = $('#img').attr('src')
+			var price = $('.price').html()
+
+			var number = $('#number').val()
+			$.cookie('img', '', {exprires: -1, path: '/'})
+			$.cookie('price', '', {exprires: -1, path: '/'})
+			$.cookie('number', '', {exprires: -1, path: '/'})
+			if ($.cookie('img')) {
+				console.log(2)
+
+			} else {
+				console.log(3)
+				$('.main-b').remove()
+				$('#error').html(' <p id="error" style="color: red;font-size: 20px;text-align: center"> 还没有商品加入购物车，请先购物！ </p> ')
+				var a = 0
+
+				$('#total').html(a)
+				console.log(4)
+
+
+
+
+			}
+		} else {
+			$('#number').val(number)
+			if ($('#checkbox').is(':checked')) {
+				click1()
+			} else {
+				var b = 0
+				$('#total').html(parseInt(b))
+			}
+
+		}
+
+	})
+
+	$('#plus').click(function () {
+		console.log('plus')
+		var i = $('#number').val()
+
+		i++
+
+		$('#number').val(i)
+
+		if ($('#checkbox').is(':checked')) {
+			click1()
+		} else {
+			var c = 0
+			$('#total').html(parseInt(c))
+		}
+
+	})
+
+
+
+
+	function click1() {
+
+		console.log('total')
+
+		$(this).attr('checked', 'checked')
+		var number = $('#number').val()
+		var price = $('#price').html()
+
+
+		var total = parseInt(number) * parseInt(price)
+
+		$('#total').html(total)
+	}
+
+	//
+	// var img = $('#img').attr('src')
+	// var price = $('.price').html()
+	// var number = $('#number').val()
+	// // $.cookie('cart',[img,price,number],{exprires:600,path:'/'})
+	// $.cookie('img', img, {exprires: 600, path: '/'})
+	// $.cookie('price', price, {exprires: 600, path: '/'})
+	// $.cookie('number', number, {exprires: 600, path: '/'})
+
+
+	window.onbeforeunload=function(){
+		console.log('离开了当前页面')
+		var img = $('#list .img01').attr('src')
+		var price = $('#price').html()
+		var number = $('#number').val()
+		// $.cookie('cart',[img,price,number],{exprires:600,path:'/'})
+		$.cookie('img', img, {exprires: 600, path: '/'})
+		$.cookie('price', price, {exprires: 600, path: '/'})
+		$.cookie('number', number, {exprires: 600, path: '/'})
+		console.log(img)
+	}
+
 	//获取购物车的cookie数据,并用节点显示
 	refresh();
 
@@ -238,19 +378,6 @@ $(function () {
 			refresh();
 		})
 	}
-
-
-
-		var img = $('#img').attr('src')
-		var price = $('.price').html()
-		var number = $('#number').val()
-		// $.cookie('cart',[img,price,number],{exprires:600,path:'/'})
-		$.cookie('img',img,{exprires:600,path:'/'})
-		$.cookie('price',price,{exprires:600,path:'/'})
-		$.cookie('number',number,{exprires:600,path:'/'})
-		console.log(img)
-
-
 
 
 })
