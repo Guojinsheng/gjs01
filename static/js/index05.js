@@ -251,6 +251,19 @@ $(function () {
 
 	console.log('*************************')
 
+
+	    $('#generate-order').click(function () {
+	        $.get('/generateorder/', function (response) {
+	            console.log(response)
+	            if (response['status'] == '1'){ // 订单详情(付款)
+
+	                var orderid = response['orderid']
+
+
+		            window.open('/orderinfo/?orderid='+orderid, target='_self')
+	            }
+	        })
+	})
 })
 
 

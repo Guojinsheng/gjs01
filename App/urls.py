@@ -9,6 +9,8 @@ urlpatterns = [
 	url(r'^register/$',views.register,name='register'),
 	url(r'^login/$',views.login,name='login'),
 	url(r'^quit/$',views.quit,name='quit'),
+
+
 	url(r'^cart/$',views.cart,name='cart'),
 	url(r'^addcart/$',views.addcart,name='addcart'),
 	url(r'^addcart1/$',views.addcart1,name='addcart1'),
@@ -21,5 +23,10 @@ urlpatterns = [
 	url(r'^allselect/$',views.allselect,name='allselect'),
 	url(r'^delSelect/$',views.delSelect,name='delSelect'),
 	url(r'^status/$',views.status,name='status'),
+
+
+    url(r'^generateorder/$', views.generateorder, name='generateorder'),    # 下单
+    url(r'^orderinfo/$', views.orderinfo, name='orderinfo'),    # 订单详情
+	url(r'^changeorderstatus/$', views.changeorderstatusm, name='changeorderstatus'), # 修改订单状态
 
 ]

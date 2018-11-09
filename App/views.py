@@ -7,7 +7,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from App.models import User, Wheel, Shop, Cart
+from App.models import User, Wheel, Shop, Cart, Order, OrderGoods
 
 
 def index(request):
@@ -143,7 +143,6 @@ def addcart(request):
 
 			cart.isselect = 0
 
-
 			cart.number = str(int(number) + 1)
 
 			cart.save()
@@ -161,7 +160,6 @@ def addcart(request):
 			cart.number = 1
 
 			cart.isselect = 0
-
 
 			cart.save()
 
@@ -235,7 +233,6 @@ def cart(request):
 		carts = Cart.objects.filter(user=user).exclude(number='0')
 		print(carts)
 
-
 		return render(request, 'cart.html', context={'carts': carts})
 
 	else:  # 跳转到登录页面
@@ -256,7 +253,6 @@ def shop(request, page):
 
 	shop = Shop.objects.all()[int(page) - 1]
 
-
 	return render(request, 'shop.html', context={'shop': shop, 'token': token, 'user': user})
 
 
@@ -266,9 +262,9 @@ def delshop(request):
 	user = User.objects.filter(token=token)
 	shop = Shop.objects.filter(id=shopid)
 	carts = Cart.objects.filter(user=user).filter(shop=shop)
-	responsedata={
-		'msg':'删除成功',
-		'status':1
+	responsedata = {
+		'msg': '删除成功',
+		'status': 1
 	}
 
 	if carts.exists():
@@ -278,7 +274,6 @@ def delshop(request):
 		carts.delete()
 
 		responsedata['number'] = carts.number
-
 
 		return JsonResponse(responsedata)
 
@@ -295,8 +290,8 @@ def total(request):
 	total = int(total)
 
 	responsedata = {
-		'msg':'计算总价',
-		'status':1
+		'msg': '计算总价',
+		'status': 1
 	}
 
 	if checked == 'checked':
@@ -312,7 +307,6 @@ def total(request):
 		print(int(number))
 		print(int(price))
 
-
 		responsedata['total'] = total
 
 	elif checked == None:
@@ -322,11 +316,6 @@ def total(request):
 
 		total = 0
 		responsedata['total'] = total
-
-
-
-
-
 
 	return JsonResponse(responsedata)
 
@@ -352,7 +341,6 @@ def addcart1(request):
 
 	cart.number = str(int(number) + 1)
 
-
 	cart.save()
 
 	responseData = {
@@ -366,7 +354,6 @@ def addcart1(request):
 	}
 
 	return JsonResponse(responseData)
-
 
 
 def subcart1(request):
@@ -463,7 +450,6 @@ def allselect(request):
 
 
 def status(request):
-
 	cartid = request.GET.get('cartid')
 
 	token = request.session.get('token')
@@ -472,8 +458,8 @@ def status(request):
 	cart = Cart.objects.filter(id=cartid).filter(user=user).first()
 
 	responsedata = {
-		'msg':'修改成功',
-		'status':1
+		'msg': '修改成功',
+		'status': 1
 	}
 
 	if cart.isselect:
@@ -484,12 +470,10 @@ def status(request):
 		print('+++++++++++++++')
 		responsedata['num'] = '0'
 
-
 	return JsonResponse(responsedata)
 
 
 def delSelect(request):
-
 	cartid = request.GET.get('cartid')
 
 	token = request.session.get('token')
@@ -498,17 +482,105 @@ def delSelect(request):
 
 	carts = Cart.objects.filter(id=cartid).filter(user=user)
 
-	responsedata={
-		'msg':'清空购物车',
-		'status':1
+	responsedata = {
+		'msg': '清空购物车',
+		'status': 1
 	}
 
 	if carts.exists():
 		for cart in carts:
-
 			cart.delete()
 
-
-
-
 	return JsonResponse(responsedata)
+
+
+def changecartselect(request):
+	isall = request.GET.get('isall')
+	if isall == 'true':
+		isall = True
+	else:
+		isall = False
+
+	token = request.session.get('token')
+	user = User.objects.get(token=token)
+	carts = Cart.objects.filter(user=user)
+	for cart in carts:
+		cart.isselect = isall
+		cart.save()
+
+	responseData = {
+		'status': '1',
+		'msg': '全选/取消全选 操作成功'
+	}
+
+	return JsonResponse(responseData)
+
+
+# 下单
+def generateorder(request):
+	token = request.session.get('token')
+	if token:
+		user = User.objects.get(token=token)
+		# 生成订单
+		order = Order()
+		order.user = user
+		order.number = str(uuid.uuid5(uuid.uuid4(), 'order'))
+		order.save()
+
+		carts = Cart.objects.filter(user=user).filter(isselect=True)
+		for cart in carts:
+			# 订单商品
+			orderGoods = OrderGoods()
+			orderGoods.order = order
+			orderGoods.shop = cart.shop
+			orderGoods.number = cart.number
+			orderGoods.save()
+
+			# 移除购物车
+			cart.delete()
+
+		responseData = {
+			'status': '1',
+			'msg': '订单生成成功(未付款)!',
+			'orderid': order.id
+		}
+		print('###########')
+		print(order.id)
+
+
+		return JsonResponse(responseData)
+
+	else:
+		return JsonResponse({'msg': '用户登录后再操作'})
+
+
+# 订单详情
+def orderinfo(request):
+	orderid = request.GET.get('orderid')
+	print('************')
+	print(orderid)
+	order = Order.objects.get(id=orderid)
+
+	data = {
+		'title': '订单详情',
+		'order': order,
+	}
+
+	return render(request, 'order.html', context=data)
+
+
+# 订单处理
+def changeorderstatusm(request):
+	orderid = request.GET.get('orderid')
+	status = request.GET.get('status')
+
+	order = Order.objects.get(id=orderid)
+	order.status = status
+	order.save()
+
+	responseData = {
+		'msg': '付款成功',
+		'status': 1
+	}
+
+	return JsonResponse(responseData)
