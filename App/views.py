@@ -1,4 +1,5 @@
 import hashlib
+import json
 import uuid
 
 from django.contrib.auth import logout
@@ -18,23 +19,21 @@ def index(request):
 
 		user = None
 
-
 	wheels = Wheel.objects.all()
 
 	shops = Shop.objects.all()
 
-
 	data = {
-		'user':user,
+		'user': user,
 		'wheels': wheels,
 		'shops': shops,
 	}
-	return render(request,'index.html',context=data)
+	return render(request, 'index.html', context=data)
 
 
 def register(request):
 	if request.method == 'GET':
-		return render(request,'register.html')
+		return render(request, 'register.html')
 	elif request.method == 'POST':
 		phone = request.POST.get('phone')
 		password = request.POST.get('password')
@@ -66,89 +65,185 @@ def register(request):
 			return HttpResponse('手机号已被注册')
 
 
-
-
-
-
-
-
 def login(request):
 	if request.method == 'GET':
-		return render(request,'login.html')
+		return render(request, 'login.html')
 	elif request.method == 'POST':
 
 		phone = request.POST.get('phone')
 		password = generate_password(request.POST.get('password'))
 
-		users = User.objects.filter(phone = phone,password=password)
+		users = User.objects.filter(phone=phone, password=password)
 		if users.exists():
 			user = users.first()
 
-			user.token = str(uuid.uuid5(uuid.uuid4(),'login'))
+			user.token = str(uuid.uuid5(uuid.uuid4(), 'login'))
 
 			user.save()
 
 			request.session['token'] = user.token
 
-
-
 			return redirect('app:index')
 		else:
-			return render(request,'login.html',context={'error':'用户名或密码错误'})
+			return render(request, 'login.html', context={'error': '用户名或密码错误'})
 
 
 def quit(request):
-
 	logout(request)
 
 	return redirect('app:index')
+
 
 def generate_password(password):
 	md5 = hashlib.md5()
 	md5.update(password.encode('utf-8'))
 	return md5.hexdigest()
 
+
 def generate_password(password_ck):
 	md5 = hashlib.md5()
 	md5.update(password_ck.encode('utf-8'))
 	return md5.hexdigest()
 
-def cart(request):
+
+def addcart(request):
+	shopid = request.GET.get('shopid')
+
 	token = request.session.get('token')
-	if token:
-		user = User.objects.filter(token=token).first()
 
-	else:
+	responseData = {
 
-		user = None
+		'msg': '添加购物车成功',
 
-	shop_img = request.COOKIES.get('img')
-	shop_price = request.COOKIES.get('price')
-	shop_num = request.COOKIES.get('number')
+		'status': 1  # 1标识添加成功，0标识添加失败，-1标识未登录
 
-	print(shop_img)
-	print(shop_price)
-	print(shop_num)
-
-	shop_img = shop_img.replace('%2F','/')
-
-	data = {
-		'user':user,
-		'shop_img':shop_img,
-		'shop_price':shop_price,
-		'shop_num':shop_num,
 	}
 
-	return render(request,'cart.html',context=data)
+	if token:  # 登录 [直接操作模型]
+
+		# 获取用户
+
+		user = User.objects.get(token=token)
+
+		# 获取商品
+
+		shop = Shop.objects.get(id=shopid)
+
+		# 商品已经在购物车，只修改商品个数
+
+		# 商品不存在购物车，新建对象（加入一条新的数据）
+
+		carts = Cart.objects.filter(user=user).filter(shop=shop)
+
+		if carts.exists():  # 修改数量
+
+			cart = carts.first()
+			number = request.GET.get('number')
+			print(type(number))
+
+			cart.isselect = 0
 
 
-def shop(request,page):
+			cart.number = str(int(number) + 1)
+
+			cart.save()
+
+			responseData['number'] = cart.number
+
+		else:  # 添加一条新记录
+
+			cart = Cart()
+
+			cart.user = user
+
+			cart.shop = shop
+
+			cart.number = 1
+
+			cart.isselect = 0
 
 
+			cart.save()
+
+			responseData['number'] = cart.number
+
+		return JsonResponse(responseData)
+
+	else:  # 未登录 [跳转到登录页面]
+
+		# 由于addcart这个是 用于 ajax操作， 所以这里是不能进行重定向!!
+
+		# return redirect('axf:login')
+
+		responseData['msg'] = '未登录，请登录后操作'
+
+		responseData['status'] = -1
+
+		return JsonResponse(responseData)
 
 
+def subcart(request):
+	# 获取数据
+
+	token = request.session.get('token')
+
+	shopid = request.GET.get('shopid')
+
+	# 对应用户 和 商品
+
+	user = User.objects.get(token=token)
+
+	shop = Shop.objects.get(id=shopid)
+
+	# 删减操作
+
+	cart = Cart.objects.filter(user=user).filter(shop=shop).first()
+
+	number = request.GET.get('number')
+
+	cart.number = str(int(number) - 1)
+
+	cart.isselect = 0
+
+	if int(cart.number) <= 0:
+		cart.number = '0'
+		cart.isselect = 0
+
+	cart.save()
+
+	responseData = {
+
+		'msg': '购物车减操作成功',
+
+		'status': 1,
+
+		'number': cart.number
+
+	}
+
+	return JsonResponse(responseData)
 
 
+def cart(request):
+	token = request.session.get('token')
+
+	if token:  # 显示该用户下 购物车信息
+		print('cart')
+
+		user = User.objects.get(token=token)
+
+		carts = Cart.objects.filter(user=user).exclude(number='0')
+		print(carts)
+
+
+		return render(request, 'cart.html', context={'carts': carts})
+
+	else:  # 跳转到登录页面
+
+		return redirect('app:login')
+
+
+def shop(request, page):
 	token = request.session.get('token')
 	if token:
 		user = User.objects.filter(token=token).first()
@@ -159,8 +254,261 @@ def shop(request,page):
 
 	token = request.session.get('token')
 
-	shop = Shop.objects.all()[int(page)-1]
-
-	return render(request,'shop.html',context={'shop':shop,'token':token,'user':user})
+	shop = Shop.objects.all()[int(page) - 1]
 
 
+	return render(request, 'shop.html', context={'shop': shop, 'token': token, 'user': user})
+
+
+def delshop(request):
+	shopid = request.GET.get('shopid')
+	token = request.session.get('token')
+	user = User.objects.filter(token=token)
+	shop = Shop.objects.filter(id=shopid)
+	carts = Cart.objects.filter(user=user).filter(shop=shop)
+	responsedata={
+		'msg':'删除成功',
+		'status':1
+	}
+
+	if carts.exists():
+		carts.number = '0'
+		carts.isselect = 0
+
+		carts.delete()
+
+		responsedata['number'] = carts.number
+
+
+		return JsonResponse(responsedata)
+
+
+def total(request):
+	checked = request.GET.get('checked')
+	shopid = request.GET.get('shopid')
+	token = request.session.get('token')
+	user = User.objects.filter(token=token)
+	shop = Shop.objects.filter(id=shopid)
+
+	total = request.GET.get('total')
+
+	total = int(total)
+
+	responsedata = {
+		'msg':'计算总价',
+		'status':1
+	}
+
+	if checked == 'checked':
+
+		cart = Cart.objects.filter(user=user).filter(shop=shop).first()
+		cart.isselect = 1
+		cart.save()
+
+		number = cart.number
+		price = cart.shop.price
+
+		total += int(number) * int(price)
+		print(int(number))
+		print(int(price))
+
+
+		responsedata['total'] = total
+
+	elif checked == None:
+		cart = Cart.objects.filter(user=user).filter(shop=shop).first()
+		cart.isselect = 0
+		cart.save()
+
+		total = 0
+		responsedata['total'] = total
+
+
+
+
+
+
+	return JsonResponse(responsedata)
+
+
+def addcart1(request):
+	# 获取数据
+
+	token = request.session.get('token')
+
+	shopid = request.GET.get('shopid')
+
+	# 对应用户 和 商品
+
+	user = User.objects.get(token=token)
+
+	shop = Shop.objects.get(id=shopid)
+
+	# 删减操作
+
+	cart = Cart.objects.filter(user=user).filter(shop=shop).first()
+
+	number = request.GET.get('number')
+
+	cart.number = str(int(number) + 1)
+
+
+	cart.save()
+
+	responseData = {
+
+		'msg': '购物车家操作成功',
+
+		'status': 1,
+
+		'number': cart.number
+
+	}
+
+	return JsonResponse(responseData)
+
+
+
+def subcart1(request):
+	# 获取数据
+
+	token = request.session.get('token')
+
+	shopid = request.GET.get('shopid')
+
+	# 对应用户 和 商品
+
+	user = User.objects.get(token=token)
+
+	shop = Shop.objects.get(id=shopid)
+
+	# 删减操作
+
+	cart = Cart.objects.filter(user=user).filter(shop=shop).first()
+
+	number = request.GET.get('number')
+
+	cart.number = str(int(number) - 1)
+	if int(cart.number) <= 0:
+		cart.number = '0'
+
+	cart.save()
+
+	responseData = {
+
+		'msg': '购物车减操作成功',
+
+		'status': 1,
+
+		'number': cart.number
+
+	}
+
+	return JsonResponse(responseData)
+
+
+def select(request):
+	cartid = request.GET.get('cartid')
+
+	cart = Cart.objects.get(id=cartid)
+
+	cart.isselect = not cart.isselect
+
+	cart.save()
+
+	responseData = {
+
+		'msg': '修改状态成功',
+
+		'status': '1',
+
+		'isselect': cart.isselect
+
+	}
+
+	return JsonResponse(responseData)
+
+
+def allselect(request):
+	isall = request.GET.get('isall')
+
+	if isall == 'true':
+
+		isall = True
+
+	else:
+
+		isall = False
+
+	token = request.session.get('token')
+
+	user = User.objects.get(token=token)
+
+	carts = Cart.objects.filter(user=user)
+
+	for cart in carts:
+		cart.isselect = isall
+
+		cart.save()
+
+	responseData = {
+
+		'status': '1',
+
+		'msg': '全选/取消全选 操作成功',
+
+	}
+
+	return JsonResponse(responseData)
+
+
+def status(request):
+
+	cartid = request.GET.get('cartid')
+
+	token = request.session.get('token')
+	user = User.objects.get(token=token)
+
+	cart = Cart.objects.filter(id=cartid).filter(user=user).first()
+
+	responsedata = {
+		'msg':'修改成功',
+		'status':1
+	}
+
+	if cart.isselect:
+		print('************')
+		responsedata['num'] = '1'
+
+	else:
+		print('+++++++++++++++')
+		responsedata['num'] = '0'
+
+
+	return JsonResponse(responsedata)
+
+
+def delSelect(request):
+
+	cartid = request.GET.get('cartid')
+
+	token = request.session.get('token')
+
+	user = User.objects.get(token=token)
+
+	carts = Cart.objects.filter(id=cartid).filter(user=user)
+
+	responsedata={
+		'msg':'清空购物车',
+		'status':1
+	}
+
+	if carts.exists():
+		for cart in carts:
+
+			cart.delete()
+
+
+
+
+	return JsonResponse(responsedata)

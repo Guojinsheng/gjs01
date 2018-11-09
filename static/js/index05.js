@@ -1,389 +1,260 @@
 $(function () {
+	click2()
+	click1()
+	error()
 
 
-	$('.main-b inout').removeAttr('checked')
 
-	$('#checkbox').click(function () {
-		// window.location.reload()
-		$(this).attr('checked','checked')
-				click1()
 
+
+
+
+	//全选
+	$('.allSelect').click(function () {
+		var isall = $(this).attr('isall')
+        isall = (isall == 'false') ? true : false
+        $(this).attr('isall', isall)
+        // 自身状态
+        if (isall){ // 全选
+			$(this).attr('checked','checked')
+        } else {    // 取消全选
+            $(this).removeAttr('checked')
+        }
+		// console.log('out')
+        // 发起ajax请求
+        $.get('/allselect/', {'isall':isall}, function (response) {
+            // console.log(response)
+	        // console.log('in')
+            if (response['status'] == 1){
+                // 遍历
+                $('.main-t').each(function () {
+                    $(this).find('.main-b .checkbox').attr('isselect',isall)
+					var $that =  $(this).find('.main-b .checkbox')
+	            // console.log('inside')
+                    if (isall){ // 选中
+                    	// console.log('chexked')
+                        $that.attr('checked','checked')
+	                    $that.attr('status','1')
+	                    $('ul .checkbox').attr('status','1')
+
+                    } else {    // 未选中
+                        $that.removeAttr('checked')
+	                    $that.attr('status','0')
+                        $('ul .checkbox').attr('status','0')
+                    }
+                     click1()
+                })
+                // 总计
+
+            }
+        })
+    })
+	//单个商品的选择
+	$('.main-b .checkbox').click(function () {
+		var cartid = $(this).attr('cartid')
+        var $that = $(this)
+
+        $.get('/select/', {'cartid':cartid}, function (response) {
+
+
+            if (response['status'] == '1'){
+
+                var isselect = response['isselect']
+
+                $that.attr('isselect', isselect)
+
+                // 先清空
+
+                if (isselect){  // 选中
+                    $that.attr('checked','checked')
+                    $that.attr('status','1')
+                } else {    // 未选中
+                    $that.removeAttr('checked')
+	                 $that.attr('status','0')
+                }
+                // 总计
+			    click1()
+	            allSelect()
+	            console.log('status',status)
+            }
+        })
+	})
+	//单个商品的删除操作
+	$('.main-b').find('a').click(function () {
+		console.log('del')
+
+		var shopid = $(this).parent().parent().attr('shopid')
+		console.log(shopid)
+		var $that = $(this)
+		$.get('/delshop/',{'shopid':shopid},function (response) {
+
+			console.log('in')
+			// console.log(response)
+			if (response.status == 1 && response.number == '0'){
+				$that.parent().parent().remove()
+			}
+			window.location.reload()
+		})
 	})
 
-	if ($('#checkbox').is(':checked')) {
-		click1()
-	} else {
-		var i = 0
-		$('#total').html(parseInt(i))
-	}
+	//购物车的减操作
+	$('.mius').click(function () {
+		var $that = $(this)
+		var shopid = $('.main-b').attr('shopid')
+		console.log('id',shopid)
+		var number = $(this).parent().find('.number').val()
+		$.get('/subcart1/',{'shopid':shopid,'number':number},function (response) {
+			if (response.status == 1){
 
-
-
-	$('#allSelect').click(function () {
-		console.log('allSelect')
-		$('#allSelect').attr('checked','checked')
-		$('#allSelect1').attr('checked','checked')
-		$('#checkbox').attr('checked','checked')
-		click1()
-	})
-	$('#allSelect1').click(function () {
-		console.log('allSelect')
-		$('#allSelect').attr('checked','checked')
-		$('#allSelect1').attr('checked','checked')
-		$('#checkbox').attr('checked','checked')
-		click1()
-	})
-
-	$('#checkbox').dblclick(function () {
-		if ($('#checkbox').is(':checked')) {
-		click1()
-	} else {
-		$('#allSelect').removeAttr('checked')
-	}
-	})
-
-	$('#del').click(function () {
-		console.log(1)
-		var img = $('#img').attr('src')
-		var price = $('.price').html()
-
-		var number = $('#number').val()
-		$.cookie('img', '', {exprires: -1, path: '/'})
-		$.cookie('price', '', {exprires: -1, path: '/'})
-		$.cookie('number', '', {exprires: -1, path: '/'})
-
-	})
-
-
-	if ($.cookie('img')) {
-		console.log(2)
-
-	} else {
-		console.log(3)
-		$('.main-b').remove()
-
-	}
-
-
-	$('#mius').click(function () {
-		console.log('mius')
-		var number = $('#number').val()
-
-		number = number - 1
-		if (number <= 0) {
-			var img = $('#img').attr('src')
-			var price = $('.price').html()
-
-			var number = $('#number').val()
-			$.cookie('img', '', {exprires: -1, path: '/'})
-			$.cookie('price', '', {exprires: -1, path: '/'})
-			$.cookie('number', '', {exprires: -1, path: '/'})
-			if ($.cookie('img')) {
-				console.log(2)
-
-			} else {
-				console.log(3)
-				$('.main-b').remove()
-				$('#error').html(' <p id="error" style="color: red;font-size: 20px;text-align: center"> 还没有商品加入购物车，请先购物！ </p> ')
-				var a = 0
-
-				$('#total').html(a)
-				console.log(4)
-
-
-
+				$that.parent().find('.number').val(response.number)
+			}
+			if (response.number == 0){
+				$that.parent().parent().remove()
 
 			}
-		} else {
-			$('#number').val(number)
-			if ($('#checkbox').is(':checked')) {
-				click1()
-			} else {
-				var b = 0
-				$('#total').html(parseInt(b))
-			}
-
-		}
-
-	})
-
-	$('#plus').click(function () {
-		console.log('plus')
-		var i = $('#number').val()
-
-		i++
-
-		$('#number').val(i)
-
-		if ($('#checkbox').is(':checked')) {
 			click1()
-		} else {
-			var c = 0
-			$('#total').html(parseInt(c))
-		}
+		})
+	})
+	//购物车的加操作
+	$('.plus').click(function () {
+		var $that = $(this)
+		var shopid = $('.main-b').attr('shopid')
+		var number = $(this).parent().find('.number').val()
+		// console.log('add')
+		$.get('/addcart1/',{'shopid':shopid,'number':number},function (response) {
+			// console.log('addtocart')
+			if (response.status == 1){
+				$that.parent().find('.number').val(response.number)
+			}
+			click1()
+		})
+	})
+		//清空购物车
+	$('#delSelect').click(function () {
+
+		$('.main-b').each(function (){
+			var status = $(this).find('.checkbox').attr('status')
+			var $that = $(this)
+				console.log(status)
+
+			if (status == '1') {
+				var cartid = $that.find('.checkbox').attr('cartid')
+
+				$.get('/delSelect/',{'cartid':cartid},function (response) {
+					console.log(response)
+					if (response.status == 1){
+						$that.remove()
+						console.log('success')
+						$('#total').html(0)
+					}
+					error()
+					window.location.reload()
+
+				})
+			}
+			console.log('cartid',cartid)
+
+
+		})
 
 	})
 
-
-
-
+	//计算总价
 	function click1() {
+		var sum = 0
+		// console.log('total')
+        // 遍历
 
-		console.log('total')
+        $('.main-b').each(function () {
+        	// console.log('total1')
 
-		$(this).attr('checked', 'checked')
-		var number = $('#number').val()
-		var price = $('#price').html()
+            var $shop = $(this).find('.checkbox')
+            var $that = $(this)
 
+            // 选中，才计算
+			var status = $shop.attr('status')
 
-		var total = parseInt(number) * parseInt(price)
+	        console.log('status',status)
+	        if ($shop.attr('status') == '0'){
 
-		$('#total').html(total)
+            	$('#total').html(sum)
+
+	        } else if ($shop.attr('status') == '1'){
+        		console.log('total2')
+
+                var price = $that.find('.price').html()
+
+                var num = $that.find('.number').val()
+
+                sum += num * price
+
+	            console.log(sum)
+
+	             $('#total').html(sum)
+
+            }
+        })
+        // 修改总计 显示
+	}
+	//确定商品是否选中
+	function click2() {
+		var cartid = $('.main-b .checkbox').attr('cartid')
+		var status =  $('.main-b').find('input').attr('status')
+		console.log('status',status)
+		console.log('cartid',cartid)
+		$.get('/status/',{'cartid':cartid},function (response) {
+			// console.log(response)
+			$('.main-b').find('input').attr('status',response.num)
+		})
 	}
 
-	//
-	// var img = $('#img').attr('src')
-	// var price = $('.price').html()
-	// var number = $('#number').val()
-	// // $.cookie('cart',[img,price,number],{exprires:600,path:'/'})
-	// $.cookie('img', img, {exprires: 600, path: '/'})
-	// $.cookie('price', price, {exprires: 600, path: '/'})
-	// $.cookie('number', number, {exprires: 600, path: '/'})
 
 
-	window.onbeforeunload=function(){
-		console.log('离开了当前页面')
-		var img = $('#list .img01').attr('src')
-		var price = $('#price').html()
-		var number = $('#number').val()
-		// $.cookie('cart',[img,price,number],{exprires:600,path:'/'})
-		$.cookie('img', img, {exprires: 600, path: '/'})
-		$.cookie('price', price, {exprires: 600, path: '/'})
-		$.cookie('number', number, {exprires: 600, path: '/'})
-		console.log(img)
-	}
-
-	//获取购物车的cookie数据,并用节点显示
-	refresh();
-
-	function refresh() {
-
-		// var arr = $.cookie("cart");
-		// if (arr) {
-		// 	console.log(1)
-		// 	arr = JSON.parse(arr);
-		//
-		// 	//先清除旧节点
-		// 	$(".main-b").remove();
-		//
-		// 	//再添加新节点
-		// 	var totalPrice = 0; //总价
-		// 	var num=0;
-		// 	//遍历数组
-		// 	for (var i=0; i<arr.length; i++) {
-		// 		var obj = arr[i];
-		// 		var hh=(obj.num)*obj.price;
-		// 		//创建li节点
-		// 	var ul=$("<ul class='main-b'></ul>").appendTo(".main-t")
-		//
-		// 		var li1 = $("<li></li>").appendTo(ul);
-		// 		var li2 = $("<li></li>").appendTo(ul);
-		// 		var li3 = $("<li></li>").appendTo(ul);
-		// 		var li4 = $("<li></li>").appendTo(ul);
-		// 		var li5 = $("<li></li>").appendTo(ul);
-		// 		var li6 = $("<li></li>").appendTo(ul);
-		// 		//是否选中
-		// 		if (obj.checked) {
-		// 			$('<input class="ckbox" type="checkbox" checked="checked" />全选').appendTo(li1);
-		// 		}
-		// 		else {
-		// 			$('<input class="ckbox" type="checkbox" />全选').appendTo(li1);
-		// 		}
-		//
-		//
-		// 		$('<img class="img" src="'+ obj.img +'" >').appendTo(li2);
-		//
-		// 		$('<span class="price">'+obj.price +'</span>').appendTo(li3);
-		// 		$('<input class="reduce" type="button" value="-" /><input class="num" type="text" value="'+ obj.num +'" /><input class="add" type="button" value="+" />').appendTo(li4);
-		// 		$('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>'+hh +'</span>').appendTo(li5);
-		// 		$('<i class="iconfont">&#xe60d;</i>').appendTo(li6);
-		// 		$(".main-b-b").css("display","block")
-		//
-		//
-		// 		//计算总价
-		// 		if (obj.checked) {
-		// 			totalPrice += obj.price * obj.num;
-		// 			num+=obj.num;
-		// 		}
-		//
-		//
-		// 	}
-		//
-		// 	//显示总价
-		// 	$("#total").html(totalPrice);
-		// }
-		// else {
-		// 	console.log("购物车还没有商品， 请先购买！");
-		// 	$(".main-b-b").css("display","none")
-		// 	console.log(1)
-		// 	$("<h1>购物车还没有商品， 请先购买！</h1>").appendTo(".main-t")
-		// }
 
 
-		$.cookie("num", num, {expires: 30, path: "/"});
+	function allSelect() {
+		console.log(999)
 
-		$(".main-b li:nth-child(4)").find("input:eq(2)").click(function () {
-			var index = $(this).parent().parent().index(".main-t ul") - 1;
-			console.log(index)
-
-			//获取cookie并修改
-			var arr = JSON.parse($.cookie("cart"));
-			console.log(arr)
-			arr[index].num++;
-			//覆盖原来的cookie
-			$.cookie("cart", JSON.stringify(arr), {expires: 30, path: "/"});
-
-			//刷新节点数据
-			refresh();
-
+		var num=0;
+		$('.main-b .checkbox').each(function () {
+			var s=$(this).attr('status');
+			if (s=='1'){
+				num++
+			}
 		})
-
-		$(".main-b li:nth-child(4)").find("input:eq(0)").click(function () {
-			var index = $(this).parent().parent().index(".main-t ul") - 1;
-
-			//获取cookie并修改
-			var arr = JSON.parse($.cookie("cart"));
-			arr[index].num--;
-			if (arr[index].num < 1) {
-				arr[index].num = 1;
-			}
-
-			//覆盖原来的cookie
-			$.cookie("cart", JSON.stringify(arr), {expires: 30, path: "/"});
-
-			//刷新节点数据
-			refresh();
-
-		})
-
-		$(".main-b").on("click", ".iconfont", function () {
-			var index = $(this).index(".main-b .iconfont");
-
-			//获取cookie并修改
-			var arr = JSON.parse($.cookie("cart"));
-			arr[index].num--;
-			if (arr[index].num <= 0) {
-				arr.splice(index, 1); //删除数组arr的第index个
-			}
-
-			//覆盖原来的cookie
-			$.cookie("cart", JSON.stringify(arr), {expires: 30, path: "/"});
-
-			isAllSelect();
-
-			//刷新节点数据
-			refresh();
-		})
-
-		$(".main-b").on("click", ".ckbox", function () {
-			var index = $(this).index(".main-b .ckbox");
-
-			//获取cookie并修改
-			var arr = JSON.parse($.cookie("cart"));
-			arr[index].checked = !arr[index].checked;
-
-			//覆盖原来的cookie
-			$.cookie("cart", JSON.stringify(arr), {expires: 30, path: "/"});
-
-			//判断是否全选了
-			isAllSelect();
-
-			//刷新节点数据
-			refresh();
-		})
-
-		//判断是否全部勾选了
-		isAllSelect();
-
-		function isAllSelect() {
-
-			//判断是否为undefined
-			var arr = $.cookie("cart");
-			if (!arr) {
-				return;
-			}
-
-			var arr = JSON.parse($.cookie("cart"));
-
-			var sum = 0;
-			for (var i = 0; i < arr.length; i++) {
-				sum += arr[i].checked;
-			}
-
-			//全选了
-			if (arr.length != 0 && sum == arr.length) {
-				$("#allSelect").prop("checked", true);
-			}
-			//未全选
-			else {
-				$("#allSelect").prop("checked", false);
+		console.log(num)
+		if (num==$('.main-b').length){
+			console.log('AllSelect')
+			$('.allSelect').attr('checked','checked')
 			}
 		}
 
-		//全选
-		$("#allSelect").click(function () {
-			//判断是否为undefined
-			var arr = $.cookie("cart");
-			if (!arr) {
-				return;
-			}
 
-			var arr = JSON.parse($.cookie("cart"));
-			for (var i = 0; i < arr.length; i++) {
-				//全选
-				if ($(this).prop("checked")) {
-					arr[i].checked = true;
-				}
-				//全不选
-				else {
-					arr[i].checked = false;
-				}
-			}
-			$.cookie("cart", JSON.stringify(arr), {expires: 30, path: "/"});
 
-			//刷新
-			refresh();
+	function error(){
+		$('.main-b').each(function () {
+			console.log('check_shop')
+
+			if ($('.main-b').length > 0){
+				console.log('购物车有商品')
+			} else  {
+				console.log('购物车无商品')
+				$('#error').html('<p id="error" style="color: red;font-size: 20px;text-align: center"> 还没有商品加入购物车，请先购物！ </p>')
+			}
 		})
 
-		//删除选中
-		$("#delSelect").click(function () {
-
-			//获取cookie并修改
-			var arr = JSON.parse($.cookie("cart"));
-
-			//将未选中的商品添加到新数组newArr中，再将newArr保存到cookie
-			var newArr = [];
-			for (var i = 0; i < arr.length; i++) {
-				if (!arr[i].checked) {
-					newArr.push(arr[i]);
-				}
-			}
-
-			//覆盖原来的cookie
-			$.cookie("cart", JSON.stringify(newArr), {expires: 30, path: "/"});
-
-			isAllSelect();
-
-			//刷新节点数据
-			refresh();
-		})
 	}
 
+
+
+
+
+	console.log('*************************')
 
 })
 
 
-					
+
 	
 				
 

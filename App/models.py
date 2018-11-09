@@ -42,8 +42,8 @@ class Cart(models.Model):
 	# 商品
 	shop = models.ForeignKey(Shop)
 	# 选择数量
-	number = models.IntegerField(default=1)
+	number = models.CharField(max_length=50)
 	# 是否选中
-	isselect = models.BooleanField(default=True)
+	isselect = models.BooleanField(default=False)
 
 

@@ -1,32 +1,32 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title>购物车</title>
-		<script src="/static/js/jquery.js"></script>
-		<script src="/static/js/jquery.cookie.js"></script>
-		<link rel="stylesheet" type="text/css" href="/static/css/reset.css">
-		<link rel="stylesheet" type="text/css" href="/static/css/style.1.0.4.css">
-		<script src="/static/js/index05.js"></script>
-		<script src="/static/js/move.js"></script>
-	</head>
-	<body> 
-		<div class="top"> 
-			<div class="clearfix">
-				
-				<div class="notice_srcoll">
-					<span>公告：</span>
-					<ul>
-						<li><a href="#">[公告]防诈骗提醒</a></li>
-						<li><a href="#">[紧急通知！]关于短信发送异常的公告</a></li>
-						<li><a href="#">APP签到积分规则使用调整</a></li>
-						<li><a href="#">优品惠（优购物）5周年庆，盛大“聚”会</a></li>
-					</ul>
-				</div>
-				
-					
-				<ul class="top-nav">
-					{% if user %}
+<head>
+	<meta charset="UTF-8">
+	<title>购物车</title>
+	<script src="/static/js/jquery.js"></script>
+	<script src="/static/js/jquery.cookie.js"></script>
+	<link rel="stylesheet" type="text/css" href="/static/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/style.1.0.4.css">
+	<script src="/static/js/index05.js"></script>
+	<script src="/static/js/move.js"></script>
+</head>
+<body>
+<div class="top">
+	<div class="clearfix">
+
+		<div class="notice_srcoll">
+			<span>公告：</span>
+			<ul>
+				<li><a href="#">[公告]防诈骗提醒</a></li>
+				<li><a href="#">[紧急通知！]关于短信发送异常的公告</a></li>
+				<li><a href="#">APP签到积分规则使用调整</a></li>
+				<li><a href="#">优品惠（优购物）5周年庆，盛大“聚”会</a></li>
+			</ul>
+		</div>
+
+
+		<ul class="top-nav">
+			{% if user %}
 				<li>
 					<span><a href="#">{{ user.phone }}</a></span>|
 
@@ -38,82 +38,94 @@
 				<li><span><a href="{% url 'app:register' %}">注册</a></span>|</li>
 				<li><span><a href="{% url 'app:login' %}">登录</a></span>|</li>
 			{% endif %}
-					<li><span><a href="#">我的订单</a></span>|</li>
-					<li><span><a href="#">我的关注</a></span>|</li>
-					<li><span><a href="#">资讯</a></span>|</li>
-					<li><span><a href="#">品牌馆</a></span>|</li>
-					<li>&nbsp;&nbsp;&nbsp;&nbsp;<img src="/static/image/phone.png"/>&nbsp;&nbsp;<a href="#">手机优品惠</a></li>
-				</ul>
-				
-			
-			</div>
-			
-		</div>
-		<div class="header">
-		   <div class="header-l">
-		   	<a href="#" title="全球优品特卖优品惠"><img src="/static/image/logo.png"/></a>
-		   	<a href="#"><img src="/static/image/logom.jpg"/></a>
-		   </div>
-		   <div class="header-r">
-		    <span class="active"></span>
-			<span></span>
-			<span></span>
-			<span></span>
-		   	<dl >
-		   		<dt class="active">1</dt>
-		   		<dd class="active">我的购物车</dd>
-		   	</dl>
-		   	<dl>
-		   		<dt>2</dt>
-		   		<dd>确认订单信息</dd>
-		   	</dl>
-		   	<dl>
-		   		<dt>3</dt>
-		   		<dd>提交订单</dd>
-		   	</dl>
-		   		
-		   </div>
-		   
-		</div>
-		<div class="main">
-			<h2>我的购物车</h2>
-			<div class="main-t">
-				<ul class="main-a">
-					<li><input type="checkbox" id="allSelect"/>全选</li>
-					<li>商品信息</li>
-					<li>单价（元）</li>
-					<li>数量</li>
-					<li>小计（元）</li>
-					<li>操作</li>
-				</ul>
-
-				<ul class="main-b">
-					<li><input type="checkbox" id="checkbox"/>全选</li>
-					<li><img src="{{ shop_img }}" id="img"/></li>
-					<li><span id="price">{{ shop_price }}</span></li>
-					<li><button id="mius">-</button><input type="text" value="{{ shop_num }}" id="number"/><button id="plus">+</button></li>
-					<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="price"></span></li>
-					<li><a href="{% url 'app:cart' %}"><i class="iconfont" id="del">&#xe60d;</i></a></li>
-				</ul>
+			<li><span><a href="#">我的订单</a></span>|</li>
+			<li><span><a href="#">我的关注</a></span>|</li>
+			<li><span><a href="#">资讯</a></span>|</li>
+			<li><span><a href="#">品牌馆</a></span>|</li>
+			<li>&nbsp;&nbsp;&nbsp;&nbsp;<img src="/static/image/phone.png"/>&nbsp;&nbsp;<a href="#">手机优品惠</a></li>
+		</ul>
 
 
-				{% if shop_img %}
-					<p id="error"></p>
+	</div>
+
+</div>
+<div class="header">
+	<div class="header-l">
+		<a href="#" title="全球优品特卖优品惠"><img src="/static/image/logo.png"/></a>
+		<a href="#"><img src="/static/image/logom.jpg"/></a>
+	</div>
+	<div class="header-r">
+		<span class="active"></span>
+		<span></span>
+		<span></span>
+		<span></span>
+		<dl>
+			<dt class="active">1</dt>
+			<dd class="active">我的购物车</dd>
+		</dl>
+		<dl>
+			<dt>2</dt>
+			<dd>确认订单信息</dd>
+		</dl>
+		<dl>
+			<dt>3</dt>
+			<dd>提交订单</dd>
+		</dl>
+
+	</div>
+
+</div>
+<div class="main">
+	<h2>我的购物车</h2>
+	<div class="main-t">
+		<ul class="main-a">
+			<li><input type="checkbox" class="allSelect"/>全选</li>
+			<li>商品信息</li>
+			<li>单价（元）</li>
+			<li>数量</li>
+			<li>小计（元）</li>
+			<li>操作</li>
+		</ul>
+
+		{% for cart in carts %}
+			<ul class="main-b" shopid='{{ cart.shop.id }}'>
+				{% if cart.isselect %}
+					<li><input type="checkbox" checked="checked" status="1" isselect="{{ cart.isselect }}" cartid="{{ cart.id }}" class="checkbox"/></li>
 				{% else %}
-					<p id="error" style="color: red;font-size: 20px;text-align: center"> 还没有商品加入购物车，请先购物！ </p>
+					<li><input type="checkbox" status="0" isselect="{{ cart.isselect }}" cartid="{{ cart.id }}" class="checkbox"/></li>
 				{% endif %}
-				<div class="main-b-b"><i class="iconfont">&#xe651;</i>【赠品】积分赠送[2.98]*1</div>
-			</div>
-			<div class="main-c">
-				<!--<p>共1件商品 商品金额：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;￥298  </p>
-				<p>优惠金额： &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;-￥10</p>-->
-				<p>实付金额：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;￥<b id="total"></b></p>
-				<div class="main-c-b">
-					<input type="checkbox"  id="allSelect1" />全选
-					<i class="iconfont" id="delSelect">&#xe60d;</i>删除
-					<a>立即结算</a>
-				</div>
-			</div>
+				<li><img src="{{ cart.shop.img }}" id="img"/></li>
+				<li><span class="price">{{ cart.shop.price }}</span></li>
+				<li>
+					<button class="mius">-</button>
+					<input type="text" value="{{ cart.number }}" class="number"/>
+					<button class="plus">+</button>
+				</li>
+				<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="price"></span></li>
+				<li><a href="#"><i class="iconfont" class="del">&#xe60d;</i></a></li>
+			</ul>
+		{% endfor %}
+
+
+
+		{% if carts %}
+			<p id="error"></p>
+		{% else %}
+			<p id="error" style="color: red;font-size: 20px;text-align: center"> 还没有商品加入购物车，请先购物！ </p>
+		{% endif %}
+		<div class="main-b-b"><i class="iconfont">&#xe651;</i>【赠品】积分赠送[2.98]*1</div>
+	</div>
+	<div class="main-c">
+		<!--<p>共1件商品 商品金额：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;￥298  </p>
+        <p>优惠金额： &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;-￥10</p>-->
+		<p>实付金额：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;￥<b
+				id="total"></b></p>
+		<div class="main-c-b">
+{#			<input type="checkbox" class="allSelect" isall="flase"/>全选#}
+			<i class="iconfont" id="delSelect">&#xe60d;<span>自定义删除</span></i>
+			<a>立即结算</a>
 		</div>
-	</body>
+	</div>
+</div>
+</body>
 </html>

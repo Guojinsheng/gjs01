@@ -134,8 +134,7 @@
 <div class="main">
 {#	{% for item in shop %}#}
 {#		{% if item.id == int(page) %}#}
-<span style="z-index: 0" id="id" >{{ shop.id }}</span>
-			<div class="main-l">
+			<div class="main-l" ">
 				<div id="smallImg">
 					<img src="{{ shop.img }}" class="cc" id="img"/>
 					<div id="smallArea"></div>
@@ -181,12 +180,7 @@
 				<button class="mius">-</button>
 				<input type="text" id="number" value="0"/>
 				<button class="plus">+</button>
-
-				{% if token %}
-					<h4><a href="{% url 'app:cart' %}"><i class="iconfont">&#xe602;</i>加入购物车</a></h4>
-					{% else %}
-					<h4><a href="{% url 'app:login' %}"><i class="iconfont">&#xe602;</i>加入购物车</a></h4>
-				{% endif %}
+				<h4 shopid="{{ shop.id }}"><a href="{% url 'app:cart' %}"><i class="iconfont">&#xe602;</i>加入购物车</a></h4>
 				<i class="iconfont">&#xe607;&nbsp;&nbsp;&nbsp;</i>tv商品
 			</div>
 			</div>

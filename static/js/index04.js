@@ -119,62 +119,88 @@ $(function () {
 	})
 
 	$('.plus').click(function () {
+		var shopid = $('h4').attr('shopid')
 		var number = $('#number').val()
-		number++
-		console.log(number)
-		$('#number').val(number)
+
+		console.log('add')
+		$.get('/addcart/',{'shopid':shopid,'number':number},function (response) {
+			console.log('addtocart')
+			if (response.status == 1){
+
+				$('#number').val(response.number)
+
+			} else if (response.status == -1){
+				window.open('/login/',target='_self')
+			}
+		})
+
+
 	})
 
 
 	$('.mius').click(function () {
-		var i = $('#number').val()
+		var shopid = $('h4').attr('shopid')
+		var number = $('#number').val()
+		$.get('/subcart/',{'shopid':shopid,'number':number},function (response) {
+			if (response.status == 1){
 
-		i = i - 1
-		if (i <= 0) {
-			i = 0
+				$('#number').val(response.number)
 
-		} else {
-			console.log(i)
-			i = i
-		}
-		$('#number').val(i)
+			}
+		})
 	})
-	var id = $('#id').html()
-	$.cookie('id',parseInt(id),{exprires:600,path:'/'})
 
-	// shopimg = $.cookie('shop.img')
-	// shopprice = $.cookie('shop.price')
-	// shopnumber = $.cookie(number)
+
+
+
+
+	// var id = $('#id').html()
+	// $.cookie('id',parseInt(id),{exprires:600,path:'/'})
 	//
-	// console.log(shopimg)
-	// console.log(shopprice)
-	// console.log(shopnumber)
-
-
-	// $('.main-r').find('h4').click(function () {
-	// 	var number =  $('#number').val()
-	// 	var img =  $('#img').val()
-	// 	var price =  $('#price').val()
-	// 	document.cookie="shopimg="+img;
-	// 	document.cookie="shopprice="+price;
-	// 	document.cookie="shopnumber"+number;
+	// // shopimg = $.cookie('shop.img')
+	// // shopprice = $.cookie('shop.price')
+	// // shopnumber = $.cookie(number)
+	// //
+	// // console.log(shopimg)
+	// // console.log(shopprice)
+	// // console.log(shopnumber)
+	//
+	//
+	// // $('.main-r').find('h4').click(function () {
+	// // 	var number =  $('#number').val()
+	// // 	var img =  $('#img').val()
+	// // 	var price =  $('#price').val()
+	// // 	document.cookie="shopimg="+img;
+	// // 	document.cookie="shopprice="+price;
+	// // 	document.cookie="shopnumber"+number;
+	// //
+	// // })
+	//
+	//
+	// $('.main-r h4').click(function () {
+	// 	window.location.reload()
+	//
+	// 	var cart = []
+	//
+	//
+	//
+	// 	var img = $('#list .img01').attr('src')
+	// 	var price = $('#price').html()
+	// 	var number = $('#number').val()
+	// 	// $.cookie('cart',[img,price,number],{exprires:600,path:'/'})
+	// 	// $.cookie('img', img, {exprires: 600, path: '/'})
+	// 	// $.cookie('price', price, {exprires: 600, path: '/'})
+	// 	// $.cookie('number', number, {exprires: 600, path: '/'})
+	// 	// console.log(img)
+	//
+	// 	cart.push(
+	// 		{'img':img,'price':price,'number':number}
+	// 	);
+	// 	$.cookie('cart',JSON.stringify(cart))
+	//
+	//
 	//
 	// })
-
-
-	$('.main-r h4').click(function () {
-		window.location.reload()
-
-		var img = $('#list .img01').attr('src')
-		var price = $('#price').html()
-		var number = $('#number').val()
-		// $.cookie('cart',[img,price,number],{exprires:600,path:'/'})
-		$.cookie('img', img, {exprires: 600, path: '/'})
-		$.cookie('price', price, {exprires: 600, path: '/'})
-		$.cookie('number', number, {exprires: 600, path: '/'})
-		console.log(img)
-
-	})
 
 
 	$(".bar-t li").eq(0).mouseenter(function () {
@@ -243,7 +269,6 @@ $(function () {
 		var addcar = $(this);
 		var img = addcar.parent().parent().find("#bigImg").attr('src');
 
-		console.log(addcar.parent().parent().find("#bigImg").attr('src'))
 		var flyer = $('<img class="u-flyer" src="' + img + '">');
 		flyer.fly({
 			//开始位置
