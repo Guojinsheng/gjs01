@@ -1,4 +1,6 @@
 $(function () {
+
+
 	$(".menu-r").mouseenter(function () {
 		$(".menu-r").css("background", "#AA0000")
 		$(".fllist").css("display", "block")
@@ -17,23 +19,11 @@ $(function () {
 	console.log(pid);
 
 
-	$(".header-r p").html(parseInt($.cookie("num")))
-	$(".bar-t span").html(parseInt($.cookie("num")))
+	// $(".header-r p").html(parseInt($.cookie("num")))
+	// $(".bar-t span").html(parseInt($.cookie("num")))
 
 
-	//获取json中的数据
-	// $.get("/static/json/shops.json", function (data) {
-	// 	var arr = data;
-	//
-	// 	for (var i = 0; i < arr.length; i++) {
-	// 		var obj = arr[i]; //每个商品数据
-	//
-	// 		//找到id相同的商品后，就可以使用obj了
-	// 		if (obj_id == pid) {
-	// 			loadUI(obj);
-	// 		}
-	// 	}
-	// })
+
 
 	function loadUI(obj) {
 		$(".cc").attr("src", obj.img);
@@ -154,53 +144,7 @@ $(function () {
 
 
 
-	// var id = $('#id').html()
-	// $.cookie('id',parseInt(id),{exprires:600,path:'/'})
-	//
-	// // shopimg = $.cookie('shop.img')
-	// // shopprice = $.cookie('shop.price')
-	// // shopnumber = $.cookie(number)
-	// //
-	// // console.log(shopimg)
-	// // console.log(shopprice)
-	// // console.log(shopnumber)
-	//
-	//
-	// // $('.main-r').find('h4').click(function () {
-	// // 	var number =  $('#number').val()
-	// // 	var img =  $('#img').val()
-	// // 	var price =  $('#price').val()
-	// // 	document.cookie="shopimg="+img;
-	// // 	document.cookie="shopprice="+price;
-	// // 	document.cookie="shopnumber"+number;
-	// //
-	// // })
-	//
-	//
-	// $('.main-r h4').click(function () {
-	// 	window.location.reload()
-	//
-	// 	var cart = []
-	//
-	//
-	//
-	// 	var img = $('#list .img01').attr('src')
-	// 	var price = $('#price').html()
-	// 	var number = $('#number').val()
-	// 	// $.cookie('cart',[img,price,number],{exprires:600,path:'/'})
-	// 	// $.cookie('img', img, {exprires: 600, path: '/'})
-	// 	// $.cookie('price', price, {exprires: 600, path: '/'})
-	// 	// $.cookie('number', number, {exprires: 600, path: '/'})
-	// 	// console.log(img)
-	//
-	// 	cart.push(
-	// 		{'img':img,'price':price,'number':number}
-	// 	);
-	// 	$.cookie('cart',JSON.stringify(cart))
-	//
-	//
-	//
-	// })
+
 
 
 	$(".bar-t li").eq(0).mouseenter(function () {
@@ -290,8 +234,8 @@ $(function () {
 				flyer.remove();
 			}
 		});
+		window.location.reload()
 	});
-
 
 
 })

@@ -61,9 +61,15 @@
 	</div>
 	<div class="header-r">
 		<a href="#"><img src="/static/image/gwc.png"/></a>
-		<span><a href="{% url 'app:cart' %}">我的购物车</a></span>
+		<span>
+			{% if user %}
+				<a href="{% url 'app:cart' %}">我的购物车</a>
+			{% else %}
+				<a href="{% url 'app:login' %}">我的购物车</a>
+			{% endif %}
+		</span>
 		<a href="#"><i class="iconfont">&#xe601;</i></a>
-		<p>0</p>
+		<p>{{ number }}</p>
 	</div>
 </div>
 <div class="menu">
@@ -134,13 +140,13 @@
 <div class="main">
 {#	{% for item in shop %}#}
 {#		{% if item.id == int(page) %}#}
-			<div class="main-l" ">
+			<div class="main-l">
 				<div id="smallImg">
 					<img src="{{ shop.img }}" class="cc" id="img"/>
 					<div id="smallArea"></div>
 				</div>
 				<div id="bigArea">
-					<img id="bigImg" src="/static/images/1_2.jpeg" width="600" height="600"/>
+					<img id="bigImg" src="" width="600" height="600"/>
 				</div>
 				<ul id="list">
 					<li>
@@ -180,7 +186,7 @@
 				<button class="mius">-</button>
 				<input type="text" id="number" value="0"/>
 				<button class="plus">+</button>
-				<h4 shopid="{{ shop.id }}"><a href="{% url 'app:cart' %}"><i class="iconfont">&#xe602;</i>加入购物车</a></h4>
+				<h4 shopid="{{ shop.id }}"><a href="#"><i class="iconfont">&#xe602;</i>加入购物车</a></h4>
 				<i class="iconfont">&#xe607;&nbsp;&nbsp;&nbsp;</i>tv商品
 			</div>
 			</div>
@@ -278,10 +284,16 @@
 				</div>
 			</div>
 		</li>
-		<li><i class="iconfont" id="end">&#xe604;</i><a href="{% url 'app:cart' %}" class="gwc"><p>购物车</p></a></li>
+		<li><i class="iconfont" id="end">&#xe604;</i>
+		{% if user %}
+			<a href="{% url 'app:cart' %}" class="gwc"><p>购物车</p></a>
+		{% else %}
+			<a href="{% url 'app:login' %}" class="gwc"><p>购物车</p></a>
+		{% endif %}
+		</li>
 		<li><i class="iconfont">&#xe603;</i><a href="#" class="wdgz"><p>我的关注</p></a></li>
 		<li><i class="iconfont">&#xe640;</i><a href="#" class="zxkf"><p>在线客服</p></a></li>
-		<span>0</span>
+		<span>{{ number }}</span>
 	</ul>
 	<ul class="bar-b">
 		<li><i class="iconfont">&#xe62c;</i><a href="#" class="ewm"><img src="/static/image/foot_ewm.jpg"/></a></li>

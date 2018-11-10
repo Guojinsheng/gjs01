@@ -61,9 +61,15 @@
 	</div>
 	<div class="header-r">
 		<a href="#"><img src="/static/image/gwc.png"/></a>
-		<span><a href="{% url 'app:cart' %}">我的购物车</a></span>
+		<span>
+			{% if user %}
+				<a href="{% url 'app:cart' %}">我的购物车</a>
+			{% else %}
+				<a href="{% url 'app:login' %}">我的购物车</a>
+			{% endif %}
+		</span>
 		<a href="#"><i class="iconfont">&#xe601;</i></a>
-		<p>0</p>
+		<p>{{ number }}</p>
 	</div>
 </div>
 <div class="menu">
@@ -381,9 +387,16 @@
 				</div>
 			</div>
 		</li>
-		<li><i class="iconfont">&#xe604;</i><a href="{% url 'app:cart' %}" class="gwc"><p>购物车</p></a></li>
+		<li><i class="iconfont">&#xe604;</i>
+			{% if user %}
+				<a href="{% url 'app:cart' %}" class="gwc"><p>购物车</p></a>
+			{% else %}
+				<a href="{% url 'app:login' %}" class="gwc"><p>购物车</p></a>
+			{% endif %}
+		</li>
 		<li><i class="iconfont">&#xe603;</i><a href="#" class="wdgz"><p>我的关注</p></a></li>
 		<li><i class="iconfont">&#xe640;</i><a href="#" class="zxkf"><p>在线客服</p></a></li>
+		<span>{{ number }}</span>
 	</ul>
 	<ul class="bar-b">
 		<li><i class="iconfont">&#xe62c;</i><a href="#" class="ewm"><img src="/static/image/foot_ewm.jpg"/></a></li>

@@ -14,10 +14,13 @@ def index(request):
 	token = request.session.get('token')
 	if token:
 		user = User.objects.filter(token=token).first()
+		carts = Cart.objects.filter(user=user)
+		number = carts.count()
 
 	else:
 
 		user = None
+		number = 0
 
 	wheels = Wheel.objects.all()
 
@@ -25,6 +28,7 @@ def index(request):
 
 	data = {
 		'user': user,
+		'number':number,
 		'wheels': wheels,
 		'shops': shops,
 	}
@@ -228,7 +232,7 @@ def cart(request):
 	if token:  # 显示该用户下 购物车信息
 		print('cart')
 
-		user = User.objects.get(token=token)
+		user = User.objects.filter(token=token)
 
 		carts = Cart.objects.filter(user=user).exclude(number='0')
 		print(carts)
@@ -244,16 +248,26 @@ def shop(request, page):
 	token = request.session.get('token')
 	if token:
 		user = User.objects.filter(token=token).first()
+		carts = Cart.objects.filter(user=user)
+		number = carts.count()
+
 
 	else:
 
 		user = None
+		number= 0
 
 	token = request.session.get('token')
 
 	shop = Shop.objects.all()[int(page) - 1]
+	data = {
+		'shop':shop,
+		'token':token,
+		'user':user,
+		'number':number,
+	}
 
-	return render(request, 'shop.html', context={'shop': shop, 'token': token, 'user': user})
+	return render(request, 'shop.html', context=data)
 
 
 def delshop(request):
@@ -453,7 +467,7 @@ def status(request):
 	cartid = request.GET.get('cartid')
 
 	token = request.session.get('token')
-	user = User.objects.get(token=token)
+	user = User.objects.filter(token=token)
 
 	cart = Cart.objects.filter(id=cartid).filter(user=user).first()
 

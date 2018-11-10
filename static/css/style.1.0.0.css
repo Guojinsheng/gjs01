@@ -420,6 +420,11 @@ li .figure-c-l .f-right{
 	width: 36px;height: 36px;background:rgba(0,0,0,0.9);text-align: center;
 	line-height: 36px;
 }
+.sidebar .bar-t span{
+	position: absolute;left:17px;top: 35px;
+	display: block;width: 15px;height: 15px;background: #CC0000;
+	border-radius: 3px 3px ;text-align: center;line-height: 15px;color:#fff;
+}
 .sidebar .bar-t li i{
 	color: #fff;font-size: 20px;cursor:pointer;
 }
