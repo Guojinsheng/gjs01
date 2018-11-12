@@ -29,4 +29,8 @@ urlpatterns = [
     url(r'^orderinfo/$', views.orderinfo, name='orderinfo'),    # 订单详情
 	url(r'^changeorderstatus/$', views.changeorderstatusm, name='changeorderstatus'), # 修改订单状态
 
+	# url(r'^pay/$', views.pay, name='pay'),  # 支付
+	# url(r'^notifyurl/$', views.notifyurl, name='notifyurl'),  # 支付完成后的通知
+	# url(r'^returnurl/$', views.returnurl, name='returnurl'),  # 支付完成后的跳转
+
 ]

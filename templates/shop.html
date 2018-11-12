@@ -186,7 +186,11 @@
 				<button class="mius">-</button>
 				<input type="text" id="number" value="0"/>
 				<button class="plus">+</button>
-				<h4 shopid="{{ shop.id }}"><a href="#"><i class="iconfont">&#xe602;</i>加入购物车</a></h4>
+				{% if user %}
+					<h4 shopid="{{ shop.id }}"><a href="#"><i class="iconfont">&#xe602;</i>加入购物车</a></h4>
+				{% else %}
+					<h4 shopid="{{ shop.id }}"><a href="{% url 'app:login' %}"><i class="iconfont">&#xe602;</i>加入购物车</a></h4>
+				{% endif %}
 				<i class="iconfont">&#xe607;&nbsp;&nbsp;&nbsp;</i>tv商品
 			</div>
 			</div>

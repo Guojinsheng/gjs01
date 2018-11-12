@@ -25,7 +25,7 @@ SECRET_KEY = '6=9ztv$+bl3sda980ah2&slytqy2&46r*ez+=p2+50s_9gzm(u'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -125,3 +125,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS=[
     os.path.join(BASE_DIR,'static')
 ]
+
+
+# 支付相关key
+
+ALIPAY_ROOT = os.path.join(BASE_DIR, 'static/key')

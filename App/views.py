@@ -1,12 +1,12 @@
 import hashlib
 import json
+import random
 import uuid
 
 from django.contrib.auth import logout
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
-# Create your views here.
 from App.models import User, Wheel, Shop, Cart, Order, OrderGoods
 
 
@@ -175,7 +175,6 @@ def addcart(request):
 
 		# 由于addcart这个是 用于 ajax操作， 所以这里是不能进行重定向!!
 
-		# return redirect('axf:login')
 
 		responseData['msg'] = '未登录，请登录后操作'
 
@@ -232,12 +231,12 @@ def cart(request):
 	if token:  # 显示该用户下 购物车信息
 		print('cart')
 
-		user = User.objects.filter(token=token)
+		user = User.objects.filter(token=token).first()
 
 		carts = Cart.objects.filter(user=user).exclude(number='0')
 		print(carts)
 
-		return render(request, 'cart.html', context={'carts': carts})
+		return render(request, 'cart.html', context={'carts': carts,'user':user})
 
 	else:  # 跳转到登录页面
 
@@ -574,10 +573,19 @@ def orderinfo(request):
 	print('************')
 	print(orderid)
 	order = Order.objects.get(id=orderid)
+	token = request.session.get('token')
+	if token:
+		user = User.objects.filter(token=token).first()
+
+
+	else:
+
+		user = None
 
 	data = {
 		'title': '订单详情',
 		'order': order,
+		'user':user
 	}
 
 	return render(request, 'order.html', context=data)
@@ -598,3 +606,57 @@ def changeorderstatusm(request):
 	}
 
 	return JsonResponse(responseData)
+
+
+# def notifyurl(request):
+#
+#     print(' xxx  订单支付成功，请发货')
+#
+#     print(request.GET.get('subject'))
+#
+#     return JsonResponse({'msg':'success'})
+#
+#
+#
+#
+#
+# def returnurl(request):
+#
+#     print('xxx 订单支付成功，进行页面跳转')
+#
+#     return HttpResponse('进行页面跳转，回到优品汇.....')
+#
+#
+#
+#
+#
+# def pay(request):
+#
+#     identifier = request.GET.get('identifier')
+#     total = request.GET.get('total')
+#
+#
+#
+#     # 支付url
+#
+#     url = alipay_app.direct_pay(
+#
+#         subject='测试订单'+random.randrange(10000),    # 订单名称
+#
+#         out_trade_no=identifier,    # 订单号
+#
+#         total_amount=total,   # 付款金额
+#
+#         return_url='http://127.0.0.1/returnurl/'
+#
+#     )
+#
+#
+#
+#     # 拼接支付网关
+#
+#     alipay_url = 'https://openapi.alipaydev.com/gateway.do?{data}'.format(data=url)
+#
+#
+#
+#     return JsonResponse({'alipay_url':alipay_url})
