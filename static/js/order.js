@@ -6,15 +6,15 @@ $(function () {
         $.get('/changeorderstatus/', {'orderid':orderid, 'status': 2}, function (response) {
             console.log(response)
         })
-	    var identifier = $('.main-c-b span').html()
-        // var total = $('.main-c-b #total').html()
-	     // $.get('/pay/', {'identifier':identifier,'total':total},function (response) {
-        //
-        //     console.log(response['alipay_url'])
-        //
-        //     window.open(response['alipay_url'], target='_self')
-        //
-        // })
+	    var identifier = $('.main-c-b a').attr('orderid')
+        var total = $('#total').html()
+	    $.get('/pay/', {'identifier':identifier,'total':total},function (response) {
+			console.log(11111)
+            console.log(response['alipay_url'])
+
+            window.open(response['alipay_url'], target='_self')
+
+        })
     })
 
 
